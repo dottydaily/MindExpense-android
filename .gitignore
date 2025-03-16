@@ -31,3 +31,10 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Others
+/local.properties
+.DS_Store
+/captures
+.externalNativeBuild
+.cxx
