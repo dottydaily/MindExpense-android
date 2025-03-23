@@ -93,7 +93,7 @@ tasks {
 11. Register all of your defined plugin by adding these in the `build.gradle.kts` of `:build-logic:convention` module.
 ```kotlin
 // Register all plugins we defined in the :build-logic:convention module.
-gradlePlugin {
+gradlePlugin { 
     plugins {
         register("androidApplicationConvention") {
             id = "convention.android-application"
@@ -103,13 +103,25 @@ gradlePlugin {
             id = "convention.compose-application"
             implementationClass = "ApplicationComposeConventionPlugin"
         }
+        register("applicationFlavorConvention") {
+            id = "convention.flavor-application"
+            implementationClass = "ApplicationFlavorConventionPlugin"
+        }
         register("androidLibraryConvention") {
             id = "convention.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-        register("androidLibraryComposeConvention") {
+        register("libraryComposeConvention") {
             id = "convention.compose-library"
             implementationClass = "LibraryComposeConventionPlugin"
+        }
+        register("libraryFlavorConvention") {
+            id = "convention.flavor-library"
+            implementationClass = "LibraryFlavorConventionPlugin"
+        }
+        register("featureComposeConvention") {
+            id = "convention.feature-compose"
+            implementationClass = "FeatureComposeConventionPlugin"
         }
     }
 }

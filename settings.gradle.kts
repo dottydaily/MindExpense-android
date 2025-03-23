@@ -28,4 +28,6 @@ rootProject.name = "MindExpense"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
 include(":core:common")
-include(":core:ui")
+include(":core:ui:common")
+include(":features:home")
+include(":features:profile")

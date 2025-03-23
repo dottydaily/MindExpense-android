@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.0"
 kotlin = "2.1.10"
+kotlinSerialization = "1.8.0"
 ksp = "2.1.10-1.0.31"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -11,7 +12,7 @@ activityCompose = "1.10.1"
 composeBom = "2025.03.00"
 appcompat = "1.7.0"
 material = "1.12.0"
-anroidGradlePlugin = "7.4.1"
+navigation = "2.8.9"
 androidTools = "31.9.0"
 androidCoreLibraryDesugaring = "2.1.5"
 
@@ -28,6 +29,9 @@ compose-uiTooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-uiTestManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-uiTestJunit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+compose-navigationTesting = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
+kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization"}
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 android-coreLibraryDesugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidCoreLibraryDesugaring" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -50,6 +54,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 # All defined convention plugin in :build-logic:convention module.
@@ -59,4 +64,5 @@ convention-flavorApplication = { id = "convention.flavor-application", version =
 convention-library = { id = "convention.library", version = "unspecified" }
 convention-composeLibrary = { id = "convention.compose-library", version = "unspecified" }
 convention-flavorLibrary = { id = "convention.flavor-library", version = "unspecified" }
+convention-featureCompose = { id = "convention.feature-compose", version = "unspecified" }
 

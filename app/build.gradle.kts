@@ -31,7 +31,9 @@ android {
 
 dependencies {
     implementation(projects.core.common)
-    implementation(projects.core.ui)
+    implementation(projects.core.ui.common)
+    implementation(projects.features.home)
+    implementation(projects.features.profile)
 
     implementation(libs.androidx.coreKtx)
     implementation(libs.androidx.lifecycleRuntimeKtx)

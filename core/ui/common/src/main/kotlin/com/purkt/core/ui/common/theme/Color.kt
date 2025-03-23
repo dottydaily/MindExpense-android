@@ -1,4 +1,4 @@
-package com.purkt.mindexpense.core.ui.theme
+package com.purkt.core.ui.common.theme
 
 import androidx.compose.ui.graphics.Color
 

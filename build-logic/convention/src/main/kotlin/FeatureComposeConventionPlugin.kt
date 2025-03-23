@@ -1,33 +1,30 @@
-import com.android.build.api.dsl.ApplicationExtension
 import com.purkt.convention.plugin.androidTestImplementation
 import com.purkt.convention.plugin.apply
-import com.purkt.convention.plugin.configureAndroidCompose
 import com.purkt.convention.plugin.implementation
 import com.purkt.convention.plugin.libs
+import com.purkt.convention.plugin.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
-/**
- * Plugin for enabling Compose feature for Application module.
- * This plugin tends to be used together with [AndroidApplicationConventionPlugin].
- */
-class ApplicationComposeConventionPlugin : Plugin<Project> {
+class FeatureComposeConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.findPlugin("kotlin-composeCompiler"))
+                apply(libs.findPlugin("convention-library"))
+                apply(libs.findPlugin("convention-composeLibrary"))
+                apply(libs.findPlugin("convention-flavorLibrary"))
                 apply(libs.findPlugin("kotlin-serialization"))
-            }
-
-            extensions.configure<ApplicationExtension> {
-                configureAndroidCompose(this)
             }
 
             dependencies {
                 implementation(libs.findLibrary("kotlin-serialization").get())
+                implementation(libs.findLibrary("androidx-coreKtx").get())
+                implementation(libs.findBundle("composeBasic").get())
                 implementation(libs.findLibrary("compose-navigation").get())
+                testImplementation(libs.findLibrary("junit").get())
+                androidTestImplementation(libs.findLibrary("androidx-junit").get())
+                androidTestImplementation(libs.findLibrary("androidx-espressoCore").get())
                 androidTestImplementation(libs.findLibrary("compose-navigationTesting").get())
             }
         }

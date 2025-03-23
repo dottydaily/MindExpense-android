@@ -75,5 +75,9 @@ gradlePlugin {
             id = "convention.flavor-library"
             implementationClass = "LibraryFlavorConventionPlugin"
         }
+        register("featureComposeConvention") {
+            id = "convention.feature-compose"
+            implementationClass = "FeatureComposeConventionPlugin"
+        }
     }
 }
