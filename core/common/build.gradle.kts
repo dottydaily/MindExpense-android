@@ -8,6 +8,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.coreKtx)
+    implementation(libs.androidx.lifecycleViewModelKtx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espressoCore)

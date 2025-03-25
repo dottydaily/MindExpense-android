@@ -4,6 +4,7 @@ import com.purkt.convention.plugin.DefinedBuildType
 plugins {
     alias(libs.plugins.convention.androidApplication)
     alias(libs.plugins.convention.composeApplication)
+    alias(libs.plugins.convention.koinAndroid)
     alias(libs.plugins.convention.flavorApplication)
 }
 

@@ -20,8 +20,10 @@ class FeatureComposeConventionPlugin: Plugin<Project> {
             dependencies {
                 implementation(libs.findLibrary("kotlin-serialization").get())
                 implementation(libs.findLibrary("androidx-coreKtx").get())
+
                 implementation(libs.findBundle("composeBasic").get())
                 implementation(libs.findLibrary("compose-navigation").get())
+
                 testImplementation(libs.findLibrary("junit").get())
                 androidTestImplementation(libs.findLibrary("androidx-junit").get())
                 androidTestImplementation(libs.findLibrary("androidx-espressoCore").get())

@@ -7,34 +7,50 @@ coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
+lifecycle = "2.8.7"
 activityCompose = "1.10.1"
 composeBom = "2025.03.00"
-appcompat = "1.7.0"
-material = "1.12.0"
 navigation = "2.8.9"
 androidTools = "31.9.0"
 androidCoreLibraryDesugaring = "2.1.5"
+koin = "4.0.2"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-lifecycleRuntimeKtx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycleViewModelKtx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycleRuntimeKtx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-activityCompose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+# Use in convention plugin
 platform-composeBom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-uiGraphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+# Use in convention plugin
 compose-uiTooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+# Use in convention plugin
 compose-uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+# Use in convention plugin
 compose-uiTestManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-uiTestJunit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+# Use in convention plugin
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+# Use in convention plugin
 compose-navigationTesting = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
+# Use in convention plugin
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization"}
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+# Use in convention plugin
 android-coreLibraryDesugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidCoreLibraryDesugaring" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+# Use in convention plugin
+platform-koin = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+# Use in convention plugin
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+# Use in convention plugin
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
+koin-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation" }
 
 # Dependencies of the included build-logic
 android-tools-androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -43,9 +59,12 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-espressoCore = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 composeBasic = ["compose-material3", "compose-ui", "compose-uiGraphics"]
+koinCompose = ["koin-compose", "koin-navigation"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -65,4 +84,6 @@ convention-library = { id = "convention.library", version = "unspecified" }
 convention-composeLibrary = { id = "convention.compose-library", version = "unspecified" }
 convention-flavorLibrary = { id = "convention.flavor-library", version = "unspecified" }
 convention-featureCompose = { id = "convention.feature-compose", version = "unspecified" }
+convention-koinCore = { id = "convention.koin-core", version = "unspecified" }
+convention-koinAndroid = { id = "convention.koin-android", version = "unspecified" }
 

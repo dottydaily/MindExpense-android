@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.purkt.core.ui.common"
+    namespace = "com.purkt.core.mindexpense.ui.common"
 }
 
 dependencies {

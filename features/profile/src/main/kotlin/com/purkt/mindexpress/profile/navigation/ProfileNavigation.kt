@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.purkt.mindexpress.profile.ProfileScreen
+import com.purkt.mindexpress.profile.ui.ProfileScreen
 import kotlinx.serialization.Serializable
 
 /**

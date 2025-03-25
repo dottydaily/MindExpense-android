@@ -79,5 +79,13 @@ gradlePlugin {
             id = "convention.feature-compose"
             implementationClass = "FeatureComposeConventionPlugin"
         }
+        register("koinCoreConvention") {
+            id = "convention.koin-core"
+            implementationClass = "KoinCoreConventionPlugin"
+        }
+        register("koinAndroidConvention") {
+            id = "convention.koin-android"
+            implementationClass = "KoinAndroidConventionPlugin"
+        }
     }
 }
