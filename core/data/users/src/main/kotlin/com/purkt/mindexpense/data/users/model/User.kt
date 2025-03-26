@@ -12,13 +12,21 @@ import java.time.LocalDateTime
  * @param profileUrl The profile url of this user.
  * @param createdAt The [LocalDateTime] when this user is created.
  * @param updatedAt The [LocalDateTime] when this user is updated.
+ * @param isUsing Whether this user is currently using the app.
  */
 data class User(
-    val localId: String = "",
-    val remoteId: String = "",
+    val localId: Int = DEFAULT_LOCAL_ID,
+    val remoteId: Int? = null,
     val email: String = "",
     val displayName: String = "",
     val profileUrl: String = "",
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
-)
+    val isUsing: Boolean = false,
+) {
+    fun isOnline(): Boolean = remoteId != null
+
+    companion object {
+        const val DEFAULT_LOCAL_ID = 0 // Room recognize this as a value to be ignored when inserting
+    }
+}

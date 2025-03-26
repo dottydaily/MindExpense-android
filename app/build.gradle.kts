@@ -33,6 +33,7 @@ android {
 dependencies {
     implementation(projects.core.common)
     implementation(projects.core.ui.common)
+    implementation(projects.core.database)
     implementation(projects.features.home)
     implementation(projects.features.profile)
 

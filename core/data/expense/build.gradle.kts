@@ -1,15 +1,12 @@
 plugins {
-    alias(libs.plugins.convention.library)
+    alias(libs.plugins.convention.libraryJvm)
     alias(libs.plugins.convention.koinCore)
-}
-
-android {
-    namespace = "com.purkt.core.mindexpense.data.expense"
+    alias(libs.plugins.convention.roomCommonNonAndroid)
 }
 
 dependencies {
-    implementation(libs.androidx.coreKtx)
+    implementation(projects.core.data.common)
+
+    implementation(libs.kotlinx.coroutines)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espressoCore)
 }

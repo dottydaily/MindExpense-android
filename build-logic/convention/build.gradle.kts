@@ -35,6 +35,8 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     // Add the KSP (Kotlin Symbol Processing) Gradle plugin as a compile-only dependency.
     compileOnly(libs.ksp.gradlePlugin)
+    // Add the Room Gradle plugin as a compile-only dependency.
+    compileOnly(libs.androidx.roomGradlePlugin)
 }
 
 // Configure tasks related to plugin validation.
@@ -64,8 +66,12 @@ gradlePlugin {
             implementationClass = "ApplicationFlavorConventionPlugin"
         }
         register("androidLibraryConvention") {
-            id = "convention.library"
+            id = "convention.library-android"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("jvmLibraryConvention") {
+            id = "convention.library-jvm"
+            implementationClass = "JvmLibraryConventionPlugin"
         }
         register("libraryComposeConvention") {
             id = "convention.compose-library"
@@ -86,6 +92,14 @@ gradlePlugin {
         register("koinAndroidConvention") {
             id = "convention.koin-android"
             implementationClass = "KoinAndroidConventionPlugin"
+        }
+        register("roomAndroidConvention") {
+            id = "convention.room-android"
+            implementationClass = "RoomAndroidConventionPlugin"
+        }
+        register("roomConvention") {
+            id = "convention.room-common"
+            implementationClass = "RoomJvmConventionPlugin"
         }
     }
 }

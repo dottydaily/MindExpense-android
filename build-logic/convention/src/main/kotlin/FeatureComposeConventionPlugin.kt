@@ -11,7 +11,7 @@ class FeatureComposeConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.findPlugin("convention-library"))
+                apply(libs.findPlugin("convention-libraryAndroid"))
                 apply(libs.findPlugin("convention-composeLibrary"))
                 apply(libs.findPlugin("convention-flavorLibrary"))
                 apply(libs.findPlugin("kotlin-serialization"))

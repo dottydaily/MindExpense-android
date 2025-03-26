@@ -18,9 +18,9 @@ import java.time.LocalDateTime
  * @param updatedAt The [LocalDateTime] when this expense is updated.
  */
 data class Expense(
-    val localId: String = "",
-    val remoteId: String = "",
-    val ownerUserId: String = "",
+    val localId: Int = DEFAULT_LOCAL_ID,
+    val remoteId: Int? = null,
+    val ownerUserId: Int,
     val title: String = "",
     val receiver: String = "",
     val note: String = "",
@@ -31,6 +31,10 @@ data class Expense(
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun hasBeenSyncedAtLeastOnce(): Boolean {
-        return remoteId.isNotBlank()
+        return remoteId != null
+    }
+
+    companion object {
+        const val DEFAULT_LOCAL_ID = 0 // Room recognize this as a value to be ignored when inserting
     }
 }

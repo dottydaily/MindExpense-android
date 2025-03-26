@@ -1,6 +1,5 @@
 import com.android.build.api.dsl.LibraryExtension
 import com.purkt.convention.plugin.apply
-import com.purkt.convention.plugin.configureFlavors
 import com.purkt.convention.plugin.configureKotlinAndroid
 import com.purkt.convention.plugin.libs
 import org.gradle.api.Plugin
@@ -17,7 +16,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply(libs.findPlugin("android-library"))
                 apply(libs.findPlugin("kotlin-android"))
                 apply(libs.findPlugin("kotlin-parcelize"))
-                apply(libs.findPlugin("kotlin-kapt"))
                 apply(libs.findPlugin("ksp"))
             }
 

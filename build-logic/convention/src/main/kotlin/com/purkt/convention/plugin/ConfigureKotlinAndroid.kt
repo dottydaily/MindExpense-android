@@ -4,9 +4,6 @@ import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
@@ -35,22 +32,11 @@ internal fun Project.configureKotlinAndroid(
             targetCompatibility = JavaVersion.VERSION_17
         }
 
+        configureKotlin()
+
         dependencies {
             coreLibraryDesugaring(libs.findLibrary("android-coreLibraryDesugaring").get())
-        }
-
-        configureKotlin()
-    }
-}
-
-// Configures Kotlin compiler options.
-private fun Project.configureKotlin() {
-    // Find all tasks of type KotlinCompile and configure each one.
-    tasks.withType<KotlinCompile>().configureEach {
-        // Configure compiler options for each KotlinCompile task.
-        compilerOptions {
-            // Set the target JVM version to 17.
-            jvmTarget.set(JvmTarget.JVM_17)
+            implementation(libs.findLibrary("timber").get())
         }
     }
 }

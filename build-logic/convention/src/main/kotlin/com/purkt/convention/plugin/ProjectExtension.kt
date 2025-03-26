@@ -29,6 +29,9 @@ internal fun DependencyHandler.releaseImplementation(dependencyNotation: Any): D
 internal fun DependencyHandler.coreLibraryDesugaring(dependencyNotation: Any): Dependency? =
     add("coreLibraryDesugaring", dependencyNotation)
 
+internal fun DependencyHandler.ksp(dependencyNotation: Any): Dependency? =
+    add("ksp", dependencyNotation)
+
 internal fun PluginManager.apply(dependency: Optional<Provider<PluginDependency>>) {
     apply(dependency.get().get().pluginId)
 }
