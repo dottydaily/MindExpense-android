@@ -4,7 +4,5 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.core.logging)
-    implementation(libs.kotlinx.coroutines)
     testImplementation(libs.junit)
 }

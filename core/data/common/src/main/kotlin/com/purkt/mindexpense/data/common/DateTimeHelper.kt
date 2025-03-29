@@ -1,5 +1,6 @@
 package com.purkt.mindexpense.data.common
 
+import com.purkt.mindexpense.core.logging.AppLogger
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -9,7 +10,7 @@ fun LocalDateTime.toIsoDateTimeStringOrNull(pattern: String = DATE_TIME_PATTERN)
     try {
         return toIsoDateTimeStringOrThrowError(pattern = pattern)
     } catch (e: Throwable) {
-        e.printStackTrace()
+        AppLogger.e(e)
         return null
     }
 }
@@ -23,7 +24,7 @@ fun String.toLocalDateTimeOrNull(pattern: String = DATE_TIME_PATTERN): LocalDate
     try {
         return toLocalDateTimeOrThrowError(pattern = pattern)
     } catch (e: Throwable) {
-        e.printStackTrace()
+        AppLogger.e(e)
         return null
     }
 }

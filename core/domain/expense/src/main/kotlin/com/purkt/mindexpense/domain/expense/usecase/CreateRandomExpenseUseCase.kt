@@ -1,8 +1,8 @@
 package com.purkt.mindexpense.domain.expense.usecase
 
+import com.purkt.mindexpense.core.logging.AppLogger
 import com.purkt.mindexpense.data.expense.model.Expense
 import com.purkt.mindexpense.data.expense.repository.ExpenseRepository
-import kotlinx.coroutines.flow.Flow
 import kotlin.random.Random
 
 interface CreateRandomExpenseUseCase {
@@ -22,7 +22,9 @@ internal class CreateRandomExpenseUseCaseImpl(
                 title = titles.random(),
                 receiver = receivers.random(),
                 amount = Random.nextInt(50, 300).toDouble(),
-            )
+            ).apply {
+                AppLogger.d("Creating random expense: $this")
+            }
         )
     }
 }

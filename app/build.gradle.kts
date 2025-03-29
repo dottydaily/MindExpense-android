@@ -32,6 +32,7 @@ android {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.logging)
     implementation(projects.core.ui.common)
     implementation(projects.core.database)
     implementation(projects.features.home)

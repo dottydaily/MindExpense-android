@@ -9,6 +9,7 @@ android {
 
 dependencies {
     api(projects.core.data.users)
+    implementation(projects.core.logging)
 
     implementation(libs.androidx.coreKtx)
     testImplementation(libs.junit)
