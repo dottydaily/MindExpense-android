@@ -6,5 +6,4 @@ plugins {
 
 dependencies {
     implementation(projects.core.logging)
-    testImplementation(projects.core.testing)
 }

@@ -101,5 +101,9 @@ gradlePlugin {
             id = "convention.room-common"
             implementationClass = "RoomJvmConventionPlugin"
         }
+        register("testConvention") {
+            id = "convention.test-core"
+            implementationClass = "JvmTestConventionPlugin"
+        }
     }
 }

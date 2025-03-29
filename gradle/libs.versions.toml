@@ -19,10 +19,13 @@ appcompat = "1.7.0"
 material = "1.12.0"
 room = "2.6.1"
 timber = "5.0.1"
+mockk = "1.13.17"
 
 [libraries]
 # Being used indirectly by convention plugin
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutinesTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-lifecycleViewModelKtx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
@@ -60,10 +63,13 @@ platform-koin = { group = "io.insert-koin", name = "koin-bom", version.ref = "ko
 # Being used indirectly by convention plugin
 koin-core = { group = "io.insert-koin", name = "koin-core" }
 # Being used indirectly by convention plugin
+koin-testCore = { group = "io.insert-koin", name = "koin-test" }
+koin-testJunit4 = { group = "io.insert-koin", name = "koin-test-junit4" }
 koin-android = { group = "io.insert-koin", name = "koin-android" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 koin-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 # Dependencies of the included build-logic
 android-tools-androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -105,4 +111,5 @@ convention-koinCore = { id = "convention.koin-core", version = "unspecified" }
 convention-koinAndroid = { id = "convention.koin-android", version = "unspecified" }
 convention-roomAndroid = { id = "convention.room-android", version = "unspecified" }
 convention-roomCommonNonAndroid = { id = "convention.room-common", version = "unspecified" }
+convention-testCore = { id = "convention.test-core", version = "unspecified" }
 
