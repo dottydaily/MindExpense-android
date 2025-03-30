@@ -6,4 +6,7 @@ plugins {
 
 dependencies {
     implementation(projects.core.logging)
+    implementation(libs.mockk)
+    implementation(libs.koin.testCore)
+    implementation(libs.koin.testJunit4)
 }

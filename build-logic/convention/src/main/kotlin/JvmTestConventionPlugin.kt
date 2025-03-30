@@ -10,8 +10,8 @@ class JvmTestConventionPlugin: Plugin<Project> {
             dependencies {
                 testImplementation(libs.findLibrary("junit").get())
                 testImplementation(libs.findLibrary("mockk").get())
-                testImplementation(libs.findLibrary("kotlin.test").get())
-                testImplementation(libs.findLibrary("kotlinx.coroutinesTest").get())
+                testImplementation(libs.findLibrary("kotlin-test").get())
+                testImplementation(libs.findLibrary("kotlinx-coroutinesTest").get())
                 testImplementation(libs.findLibrary("koin-testCore").get())
                 testImplementation(libs.findLibrary("koin-testJunit4").get())
             }

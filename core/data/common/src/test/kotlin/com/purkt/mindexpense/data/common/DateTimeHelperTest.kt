@@ -1,64 +1,33 @@
 package com.purkt.mindexpense.data.common
 
-import com.purkt.mindexpense.core.logging.AppLogger
-import com.purkt.mindexpense.core.testing.logging.mockMyLoggerModule
+import com.purkt.mindexpense.core.testing.base.BaseTest
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
-import io.mockk.mockkClass
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
-import io.mockk.runs
-import io.mockk.unmockkObject
 import io.mockk.unmockkStatic
 import org.junit.AfterClass
 import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
-import org.koin.dsl.module
-import org.koin.test.KoinTest
-import org.koin.test.KoinTestRule
-import org.koin.test.mock.MockProviderRule
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.Month
 import java.time.format.DateTimeFormatter
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class DateTimeHelperTest: KoinTest {
-
-    @get:Rule
-    val koinTestRule = KoinTestRule.create {
-        modules(
-            module {
-                includes(mockMyLoggerModule)
-            }
-        )
-    }
-
-    @get:Rule
-    val mockProvider = MockProviderRule.create { clazz ->
-        mockkClass(clazz)
-    }
+class DateTimeHelperTest: BaseTest() {
 
     companion object {
         @BeforeClass
         @JvmStatic
         fun setup() {
-            mockkObject(AppLogger)
-            every { AppLogger.i(message = any()) } just runs
-            every { AppLogger.d(message = any()) } just runs
-            every { AppLogger.v(message = any()) } just runs
-            every { AppLogger.w(message = any()) } just runs
-            every { AppLogger.e(message = any()) } just runs
+            setUpMockAppLogger()
         }
 
         @AfterClass
         @JvmStatic
         fun tearDown() {
-            unmockkObject(AppLogger)
+            tearDownMockAppLogger()
         }
     }
 
