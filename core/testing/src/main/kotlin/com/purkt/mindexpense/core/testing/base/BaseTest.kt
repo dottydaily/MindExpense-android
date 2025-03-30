@@ -1,7 +1,6 @@
 package com.purkt.mindexpense.core.testing.base
 
 import com.purkt.mindexpense.core.logging.AppLogger
-import com.purkt.mindexpense.core.testing.logging.mockMyLoggerModule
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockkClass
@@ -20,17 +19,16 @@ import org.koin.test.mock.MockProviderRule
  */
 abstract class BaseTest: KoinTest {
     /**
-     * Additional scope for adding mock modules.
-     * This will be called in the end of module declaration in [koinTestRule].
+     * Scope for adding mock modules.
+     * This will be called in [koinTestRule].
      */
-    open val additionalMockModule: ModuleDeclaration = {}
+    open val mockModuleScope: ModuleDeclaration = { }
 
     @get:Rule
     open val koinTestRule = KoinTestRule.create {
         modules(
             module {
-                includes(mockMyLoggerModule)
-                additionalMockModule.invoke(this)
+                mockModuleScope.invoke(this)
             }
         )
     }

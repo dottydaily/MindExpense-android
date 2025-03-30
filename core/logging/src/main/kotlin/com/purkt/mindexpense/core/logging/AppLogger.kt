@@ -7,76 +7,66 @@ object AppLogger: MyLogger, KoinComponent {
     private val _myLogger by inject<MyLogger>()
 
     override fun i(tag: String?, message: String, vararg args: Any?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.i(tag = targetTag, message = message, args = args)
+        _myLogger.i(tag = tag, message = message, args = args)
     }
 
     override fun i(e: Throwable?, tag: String?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.i(e, targetTag)
+        _myLogger.i(tag = tag, e = e)
     }
 
     override fun v(tag: String?, message: String, vararg args: Any?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.v(tag = targetTag, message = message, args = args)
+        _myLogger.v(tag = tag, message = message, args = args)
     }
 
     override fun v(e: Throwable?, tag: String?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.v(e, targetTag)
+        _myLogger.v(tag = tag, e = e)
     }
 
     override fun d(tag: String?, message: String, vararg args: Any?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.d(tag = targetTag, message = message, args = args)
+        _myLogger.d(tag = tag, message = message, args = args)
     }
 
     override fun d(e: Throwable?, tag: String?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.d(e, targetTag)
+        _myLogger.d(tag = tag, e = e)
     }
 
     override fun w(tag: String?, message: String, vararg args: Any?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.w(tag = targetTag, message = message, args = args)
+        _myLogger.w(tag = tag, message = message, args = args)
     }
 
     override fun w(e: Throwable?, tag: String?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.w(e, targetTag)
+        _myLogger.w(tag = tag, e = e)
     }
 
     override fun e(tag: String?, message: String, vararg args: Any?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.e(tag = targetTag, message = message, args = args)
+        _myLogger.e(tag = tag, message = message, args = args)
     }
 
     override fun e(e: Throwable?, tag: String?) {
-        val targetTag = tag ?: getCallerMethodName()
-        _myLogger.e(e, targetTag)
+        _myLogger.e(tag = tag, e = e)
     }
 
-    fun i(message: String, vararg args: Any?) {
-        _myLogger.i(tag = getCallerMethodName(), message = message, args = args)
-    }
-    fun v(message: String, vararg args: Any?) {
-        _myLogger.v(tag = getCallerMethodName(), message = message, args = args)
-    }
-    fun d(message: String, vararg args: Any?) {
-        _myLogger.d(tag = getCallerMethodName(), message = message, args = args)
-    }
-    fun w(message: String, vararg args: Any?) {
-        _myLogger.w(tag = getCallerMethodName(), message = message, args = args)
-    }
-    fun e(message: String, vararg args: Any?) {
-        _myLogger.e(tag = getCallerMethodName(), message = message, args = args)
-    }
+    fun i(message: String, vararg args: Any?) = i(tag = getCallerMethodName(), message = message, args = args)
+    fun v(message: String, vararg args: Any?) = v(tag = getCallerMethodName(), message = message, args = args)
+    fun d(message: String, vararg args: Any?) = d(tag = getCallerMethodName(), message = message, args = args)
+    fun w(message: String, vararg args: Any?) = w(tag = getCallerMethodName(), message = message, args = args)
+    fun e(message: String, vararg args: Any?) = e(tag = getCallerMethodName(), message = message, args = args)
+
+    fun i(e: Throwable) = i(tag = getCallerMethodName(), e = e)
+    fun v(e: Throwable) = v(tag = getCallerMethodName(), e = e)
+    fun d(e: Throwable) = d(tag = getCallerMethodName(), e = e)
+    fun w(e: Throwable) = w(tag = getCallerMethodName(), e = e)
+    fun e(e: Throwable) = e(tag = getCallerMethodName(), e = e)
 
     private fun getCallerMethodName(): String {
-        val topCallerStackTrace = Throwable().stackTrace.getOrNull(2) ?: return ""
-        val className = topCallerStackTrace.className.substringAfterLast(".")
-        val line = topCallerStackTrace.lineNumber
+        return try {
+            val topCallerStackTrace = Throwable().stackTrace[2]
+            val className = topCallerStackTrace.className.substringAfterLast(".")
+            val line = topCallerStackTrace.lineNumber
 
-        return "$className[L:$line]"
+            return "$className[L:$line]"
+        } catch (_: Throwable) {
+            ""
+        }
     }
 }

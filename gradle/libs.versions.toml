@@ -62,12 +62,13 @@ android-coreLibraryDesugaring = { group = "com.android.tools", name = "desugar_j
 platform-koin = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
 # Being used indirectly by convention plugin
 koin-core = { group = "io.insert-koin", name = "koin-core" }
-# Being used indirectly by convention plugin
 koin-testCore = { group = "io.insert-koin", name = "koin-test" }
 koin-testJunit4 = { group = "io.insert-koin", name = "koin-test-junit4" }
+# Being used indirectly by convention plugin
 koin-android = { group = "io.insert-koin", name = "koin-android" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose" }
 koin-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navigation" }
+# Being used indirectly by convention plugin
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 

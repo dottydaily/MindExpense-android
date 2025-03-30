@@ -1,9 +1,14 @@
 package com.purkt.mindexpense.core.testing.logging
 
 import com.purkt.mindexpense.core.logging.MyLogger
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
-val mockMyLoggerModule = module {
+fun Module.includedMockMyLogger() {
+    includes(mockMyLoggerModule)
+}
+
+private val mockMyLoggerModule = module {
     single<MyLogger> { MockMyLogger() }
 }
 

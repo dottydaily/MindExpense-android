@@ -1,6 +1,7 @@
 package com.purkt.mindexpense.data.common
 
 import com.purkt.mindexpense.core.testing.base.BaseTest
+import com.purkt.mindexpense.core.testing.logging.includedMockMyLogger
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -8,6 +9,7 @@ import io.mockk.unmockkStatic
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
+import org.koin.dsl.ModuleDeclaration
 import java.time.LocalDateTime
 import java.time.Month
 import java.time.format.DateTimeFormatter
@@ -16,6 +18,10 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class DateTimeHelperTest: BaseTest() {
+
+    override val mockModuleScope: ModuleDeclaration = {
+        includedMockMyLogger()
+    }
 
     companion object {
         @BeforeClass
