@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.purkt.mindexpress.profile"
+    namespace = "com.purkt.mindexpense.features.profile"
 }
 
 dependencies {

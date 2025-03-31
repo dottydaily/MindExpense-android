@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.purkt.core.mindexpense.domain.users"
+    namespace = "com.purkt.mindexpense.core.domain.users"
 }
 
 dependencies {

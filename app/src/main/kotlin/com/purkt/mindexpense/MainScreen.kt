@@ -26,10 +26,10 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.purkt.mindexpense.home.navigation.HomeGraphRoute
-import com.purkt.mindexpense.home.navigation.homeGraph
-import com.purkt.mindexpress.profile.navigation.ProfileGraphRoute
-import com.purkt.mindexpress.profile.navigation.profileGraph
+import com.purkt.mindexpense.features.home.navigation.HomeGraphRoute
+import com.purkt.mindexpense.features.home.navigation.homeGraph
+import com.purkt.mindexpense.features.profile.navigation.ProfileGraphRoute
+import com.purkt.mindexpense.features.profile.navigation.profileGraph
 
 @Preview
 @Composable
