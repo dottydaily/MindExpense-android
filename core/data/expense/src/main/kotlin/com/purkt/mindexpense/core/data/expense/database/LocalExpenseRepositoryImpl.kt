@@ -1,7 +1,7 @@
 package com.purkt.mindexpense.core.data.expense.database
 
 import com.purkt.mindexpense.core.data.common.suspendTryOrDefault
-import com.purkt.mindexpense.core.data.common.toIsoDateTimeStringOrThrowError
+import com.purkt.mindexpense.core.data.common.toDateTimeStringOrThrowError
 import com.purkt.mindexpense.core.data.common.toLocalDateTimeOrThrowError
 import com.purkt.mindexpense.core.data.common.tryOrDefault
 import com.purkt.mindexpense.core.data.expense.database.dao.ExpenseDao
@@ -54,7 +54,7 @@ private fun ExpenseEntity.mapToModelOrThrowError(): Expense {
         localId = localId,
         ownerUserId = ownerUserId,
         title = title,
-        receiver = receiver,
+        recipient = recipient,
         note = note.orEmpty(),
         amount = amount,
         imageUrl = imageUrl.orEmpty(),
@@ -69,12 +69,12 @@ private fun Expense.mapToEntityOrThrowError(): ExpenseEntity {
         localId = localId,
         ownerUserId = ownerUserId,
         title = title,
-        receiver = receiver,
+        recipient = recipient,
         note = note,
         amount = amount,
         imageUrl = imageUrl,
-        paidAtIsoDateTime = paidAt.toIsoDateTimeStringOrThrowError(),
-        createdAtIsoDateTime = createdAt.toIsoDateTimeStringOrThrowError(),
-        updatedAtIsoDateTime = updatedAt.toIsoDateTimeStringOrThrowError(),
+        paidAtIsoDateTime = paidAt.toDateTimeStringOrThrowError(),
+        createdAtIsoDateTime = createdAt.toDateTimeStringOrThrowError(),
+        updatedAtIsoDateTime = updatedAt.toDateTimeStringOrThrowError(),
     )
 }

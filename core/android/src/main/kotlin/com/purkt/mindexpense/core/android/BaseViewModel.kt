@@ -1,4 +1,4 @@
-package com.purkt.mindexpense.core.common
+package com.purkt.mindexpense.core.android
 
 import androidx.lifecycle.ViewModel
 

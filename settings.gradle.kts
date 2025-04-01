@@ -27,7 +27,7 @@ rootProject.name = "MindExpense"
 // For Type-Safe module access such as project.myLibrary instead of ":myLibrary"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
-include(":core:common")
+include(":core:android")
 include(":core:ui:common")
 include(":features:home")
 include(":features:profile")
@@ -39,3 +39,4 @@ include(":core:database")
 include(":core:data:common")
 include(":core:logging")
 include(":core:testing")
+include(":core:ui:resources")

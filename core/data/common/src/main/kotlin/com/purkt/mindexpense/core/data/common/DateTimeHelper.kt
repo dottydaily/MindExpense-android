@@ -5,17 +5,19 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss"
+const val DATE_FULL_PATTERN = "EEEE, d MMMM yyyy"
+const val TIME_12_HOUR_FORMAT_PATTERN = "hh:mm a"
 
-fun LocalDateTime.toIsoDateTimeStringOrNull(pattern: String = DATE_TIME_PATTERN): String? {
+fun LocalDateTime.toDateTimeStringOrNull(pattern: String = DATE_TIME_PATTERN): String? {
     try {
-        return toIsoDateTimeStringOrThrowError(pattern = pattern)
+        return toDateTimeStringOrThrowError(pattern = pattern)
     } catch (e: Throwable) {
         AppLogger.e(e)
         return null
     }
 }
 
-fun LocalDateTime.toIsoDateTimeStringOrThrowError(pattern: String = DATE_TIME_PATTERN): String {
+fun LocalDateTime.toDateTimeStringOrThrowError(pattern: String = DATE_TIME_PATTERN): String {
     val formatter = DateTimeFormatter.ofPattern(pattern)
     return formatter.format(this)
 }

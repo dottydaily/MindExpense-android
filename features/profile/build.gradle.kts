@@ -8,6 +8,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.common)
+    implementation(projects.core.android)
     implementation(projects.core.domain.users)
 }

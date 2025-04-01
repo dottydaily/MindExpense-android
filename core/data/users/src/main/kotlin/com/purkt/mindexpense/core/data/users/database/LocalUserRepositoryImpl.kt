@@ -1,7 +1,7 @@
 package com.purkt.mindexpense.core.data.users.database
 
 import com.purkt.mindexpense.core.data.common.suspendTryOrDefault
-import com.purkt.mindexpense.core.data.common.toIsoDateTimeStringOrThrowError
+import com.purkt.mindexpense.core.data.common.toDateTimeStringOrThrowError
 import com.purkt.mindexpense.core.data.common.toLocalDateTimeOrThrowError
 import com.purkt.mindexpense.core.data.common.tryOrDefault
 import com.purkt.mindexpense.core.data.users.database.dao.UsersDao
@@ -17,13 +17,13 @@ import kotlinx.coroutines.withContext
 
 internal class LocalUserRepositoryImpl(private val dao: UsersDao): UserRepository {
     override suspend fun createUser(user: User, forceActive: Boolean): Boolean {
-        return tryOrDefault(default = false) {
+        return suspendTryOrDefault(default = false) {
             if (user.localId != User.DEFAULT_LOCAL_ID) {
                 throw IllegalArgumentException("User should have default local id when creating")
             }
 
             val entity = user.mapToEntityOrThrowError(forceActive = forceActive)
-            val resultId = dao.createUser(entity)
+            val resultId = withContext(Dispatchers.IO) { dao.createUser(entity) }
             resultId > 0
         }
     }
@@ -68,8 +68,8 @@ private fun User.mapToEntityOrThrowError(forceActive: Boolean = false): UserEnti
         email = email,
         displayName = displayName,
         profileUrl = profileUrl,
-        createdAtIsoDateTime = createdAt.toIsoDateTimeStringOrThrowError(),
-        updatedAtIsoDateTime = updatedAt.toIsoDateTimeStringOrThrowError(),
+        createdAtIsoDateTime = createdAt.toDateTimeStringOrThrowError(),
+        updatedAtIsoDateTime = updatedAt.toDateTimeStringOrThrowError(),
         isUsing = if (forceActive) true else isUsing,
     )
 }

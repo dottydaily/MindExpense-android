@@ -47,7 +47,7 @@ class DateTimeHelperTest: BaseTest() {
         )
 
         testDataList.forEach { (localDateTime, expectedString) ->
-            assertEquals(expectedString, localDateTime.toIsoDateTimeStringOrThrowError())
+            assertEquals(expectedString, localDateTime.toDateTimeStringOrThrowError())
         }
     }
 
@@ -62,7 +62,7 @@ class DateTimeHelperTest: BaseTest() {
         )
 
         testDataList.forEach { (localDateTime, expectedString) ->
-            assertEquals(expectedString, localDateTime.toIsoDateTimeStringOrThrowError(manualPattern))
+            assertEquals(expectedString, localDateTime.toDateTimeStringOrThrowError(manualPattern))
         }
     }
 
@@ -70,7 +70,7 @@ class DateTimeHelperTest: BaseTest() {
     fun `Given we have localDateTime objects, When we convert to string with invalid pattern, Then throw error`() {
         val manualPattern = "ZXCVZXCVZXCV"
         val testData = LocalDateTime.of(2025, Month.JANUARY.value, 1, 12, 0, 57)
-        testData.toIsoDateTimeStringOrThrowError(manualPattern)
+        testData.toDateTimeStringOrThrowError(manualPattern)
     }
 
     @Test
@@ -84,7 +84,7 @@ class DateTimeHelperTest: BaseTest() {
         every { DateTimeFormatter.ofPattern(any()) } returns mockPattern
 
         val actual = try {
-            testData.toIsoDateTimeStringOrThrowError()
+            testData.toDateTimeStringOrThrowError()
             null
         } catch (e: Throwable) { e }
 
@@ -102,7 +102,7 @@ class DateTimeHelperTest: BaseTest() {
         )
 
         testDataList.forEach { (localDateTime, expectedString) ->
-            assertEquals(expectedString, localDateTime.toIsoDateTimeStringOrNull())
+            assertEquals(expectedString, localDateTime.toDateTimeStringOrNull())
         }
     }
 
@@ -117,7 +117,7 @@ class DateTimeHelperTest: BaseTest() {
         )
 
         testDataList.forEach { (localDateTime, expectedString) ->
-            assertEquals(expectedString, localDateTime.toIsoDateTimeStringOrNull(manualPattern))
+            assertEquals(expectedString, localDateTime.toDateTimeStringOrNull(manualPattern))
         }
     }
 
@@ -125,8 +125,24 @@ class DateTimeHelperTest: BaseTest() {
     fun `Given we have localDateTime objects, When we convert to string nullable with invalid pattern, Then throw error`() {
         val manualPattern = "ZXCVZXCVZXCV"
         val testData = LocalDateTime.of(2025, Month.JANUARY.value, 1, 12, 0, 57)
-        val actual = testData.toIsoDateTimeStringOrNull(manualPattern)
+        val actual = testData.toDateTimeStringOrNull(manualPattern)
         assertNull(actual)
+    }
+
+    @Test
+    fun `Given we have localDateTime objects and full date pattern, When we convert to string nullable, Then return correct date string`() {
+        val testData = LocalDateTime.of(2025, Month.APRIL.value, 2, 12, 0, 57)
+        val expected = "Wednesday, 2 April 2025"
+        val actual = testData.toDateTimeStringOrNull(DATE_FULL_PATTERN)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `Given we have localDateTime objects and 12-hour time format pattern, When we convert to string nullable, Then return correct time string`() {
+        val testData = LocalDateTime.of(2025, Month.APRIL.value, 2, 12, 0, 57)
+        val expected = "12:00 PM"
+        val actual = testData.toDateTimeStringOrNull(TIME_12_HOUR_FORMAT_PATTERN)
+        assertEquals(expected, actual)
     }
 
     @Test

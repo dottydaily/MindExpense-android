@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_top_bar_label">ยอดสุทธิ</string>
+    <string name="home_expense_recipent_label">ผู้รับ</string>
+    <string name="home_expense_delete">ลบ</string>
+    <string name="home_expense_paid_at_label">จ่ายเมื่อ</string>
+</resources>

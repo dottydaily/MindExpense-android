@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.purkt.mindexpense.core.common.BaseViewModel
+import com.purkt.mindexpense.core.android.BaseViewModel
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.data.expense.repository.ExpenseRepository
 import com.purkt.mindexpense.core.domain.expense.usecase.CreateRandomExpenseUseCase

@@ -1,5 +1,8 @@
 package com.purkt.mindexpense.core.data.expense.model
 
+import com.purkt.mindexpense.core.data.common.DATE_FULL_PATTERN
+import com.purkt.mindexpense.core.data.common.TIME_12_HOUR_FORMAT_PATTERN
+import com.purkt.mindexpense.core.data.common.toDateTimeStringOrNull
 import java.time.LocalDateTime
 
 /**
@@ -9,7 +12,7 @@ import java.time.LocalDateTime
  * @param remoteId The auto-generated id in remote database. This can be empty in case that this expense is only created in offline.
  * @param ownerUserId The user id who owns this expense.
  * @param title The title of this expense.
- * @param receiver The receiver of this expense.
+ * @param recipient The receiver of this expense.
  * @param note The note of this expense.
  * @param amount The amount of this expense.
  * @param imageUrl The image url of this expense.
@@ -22,7 +25,7 @@ data class Expense(
     val remoteId: Int? = null,
     val ownerUserId: Int,
     val title: String = "",
-    val receiver: String = "",
+    val recipient: String = "",
     val note: String = "",
     val amount: Double = 0.0,
     val imageUrl: String = "",
@@ -30,8 +33,27 @@ data class Expense(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
+    val uniqueId: String = if (remoteId != null) "R-$remoteId" else "L-$localId"
+
+    /**
+     * Check if this expense has been synced online or not.
+     */
     fun hasBeenSyncedAtLeastOnce(): Boolean {
         return remoteId != null
+    }
+
+    /**
+     * Get [paidAt] as a full date string. Ex."Wednesday, 2 April 2025".
+     */
+    fun getPaidAtFullDateStringOrNull(): String? {
+        return paidAt.toDateTimeStringOrNull(DATE_FULL_PATTERN)
+    }
+
+    /**
+     * Get [paidAt] as a time string. Ex."12:00 PM".
+     */
+    fun getPaidAtTimeStringOrNull(): String? {
+        return paidAt.toDateTimeStringOrNull(TIME_12_HOUR_FORMAT_PATTERN)
     }
 
     companion object {

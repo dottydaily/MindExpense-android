@@ -20,7 +20,7 @@ internal class CreateRandomExpenseUseCaseImpl(
             Expense(
                 ownerUserId = userId,
                 title = titles.random(),
-                receiver = receivers.random(),
+                recipient = receivers.random(),
                 amount = Random.nextInt(50, 300).toDouble(),
             ).apply {
                 AppLogger.d("Creating random expense: $this")

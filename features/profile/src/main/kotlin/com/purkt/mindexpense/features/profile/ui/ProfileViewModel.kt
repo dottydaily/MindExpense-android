@@ -1,7 +1,7 @@
 package com.purkt.mindexpense.features.profile.ui
 
 import androidx.lifecycle.viewModelScope
-import com.purkt.mindexpense.core.common.BaseViewModel
+import com.purkt.mindexpense.core.android.BaseViewModel
 import com.purkt.mindexpense.core.data.users.model.User
 import com.purkt.mindexpense.core.domain.users.usecase.GetCurrentUserOrCreateNewOneUseCase
 import kotlinx.coroutines.flow.SharingStarted

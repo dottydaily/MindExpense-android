@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "38ca6f4e6ecaf9d55161dfe722080ea4",
+    "identityHash": "39d9e40d4d6a5ab89e10e236239955ee",
     "entities": [
       {
         "tableName": "expense",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`local_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remote_id` TEXT, `owner_user_id` INTEGER NOT NULL, `title` TEXT NOT NULL, `receiver` TEXT NOT NULL, `note` TEXT, `amount` REAL NOT NULL, `image_url` TEXT, `paid_at` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`local_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `remote_id` TEXT, `owner_user_id` INTEGER NOT NULL, `title` TEXT NOT NULL, `recipient` TEXT NOT NULL, `note` TEXT, `amount` REAL NOT NULL, `image_url` TEXT, `paid_at` TEXT NOT NULL, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -33,8 +33,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "receiver",
-            "columnName": "receiver",
+            "fieldPath": "recipient",
+            "columnName": "recipient",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -150,7 +150,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '38ca6f4e6ecaf9d55161dfe722080ea4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '39d9e40d4d6a5ab89e10e236239955ee')"
     ]
   }
 }

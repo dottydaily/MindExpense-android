@@ -2,8 +2,11 @@ package com.purkt.mindexpense
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -12,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +44,9 @@ internal fun MainScreen() {
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
             BottomBar(navController = navController)
-        }
+        },
+        contentWindowInsets = ScaffoldDefaults.contentWindowInsets
+            .exclude(WindowInsets.statusBars) // Handled in Child's Scaffold instead.
     ) { innerPadding ->
         NavHost(
             modifier = Modifier
