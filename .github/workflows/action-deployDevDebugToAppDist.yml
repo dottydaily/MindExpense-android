@@ -17,7 +17,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    name: Build and upload to App distribution
+    name: Test, Build and Upload to App distribution
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -39,7 +39,10 @@ jobs:
           cache: "gradle"
           # The path to a dependency file: pom.xml, build.gradle, build.sbt, etc. This option can be used with the `cache` option. If this option is omitted, the action searches for the dependency file in the entire repository. This option supports wildcards and a list of file names for caching multiple dependencies.
           cache-dependency-path: "gradle/*.versions.toml"
-      
+
+      - name: Change Gradle Wrapper permissions
+        run: chmod +x ./gradlew
+
       - name: Run tests
         run: ./gradlew testDebugUnitTest
 
