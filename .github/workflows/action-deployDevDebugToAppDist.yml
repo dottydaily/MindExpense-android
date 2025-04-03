@@ -48,6 +48,12 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT_ENCRYPTED: ${{ secrets.GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT_ENCRYPTED }}
 
+      - name: Replace versionCode in AndroidBuildConfig.kt
+        run: |
+          sed -i "s/val versionCode = \([0-9]\+\)/val versionCode = $BUILD_NUMBER/g" build-logic/convention/src/main/kotlin/com/purkt/convention/plugin/AndroidBuildConfig.kt
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+
       - name: Run tests
         run: ./gradlew testDebugUnitTest
 
@@ -59,7 +65,7 @@ jobs:
         with:
           appId: ${{secrets.FIREBASE_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-          groups: Internal Tester
+          groups: "Internal Tester"
           file: app/build/outputs/apk/dev/debug/app-dev-debug.apk
           debug: true
 
