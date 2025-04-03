@@ -50,7 +50,8 @@ jobs:
 
       - name: Replace versionCode in AndroidBuildConfig.kt
         run: |
-          sed -i "s/val versionCode = \([0-9]\+\)/val versionCode = $BUILD_NUMBER/g" build-logic/convention/src/main/kotlin/com/purkt/convention/plugin/AndroidBuildConfig.kt
+          echo "Replacing with running number of this workflow ($BUILD_NUMBER)
+          sed -i "s/const val VERSION_CODE = \([0-9]\+\)/const val VERSION_CODE = $BUILD_NUMBER/g" build-logic/convention/src/main/kotlin/com/purkt/convention/plugin/AndroidBuildConfig.kt
         env:
           BUILD_NUMBER: ${{ github.run_number }}
 

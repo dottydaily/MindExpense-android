@@ -10,6 +10,8 @@ object AndroidBuildConfig {
     private const val MAJOR_VERSION_NUMBER = 1
     private const val MINOR_VERSION_NUMBER = 0
     private const val PATCH_VERSION_NUMBER = 0
+
+    // THIS VALUE WILL BE REPLACING WITH CI/CD script. DO NOT CHANGE THIS LINE.
     const val VERSION_CODE = 1
 
     fun versionName() = "$MAJOR_VERSION_NUMBER.$MINOR_VERSION_NUMBER.$PATCH_VERSION_NUMBER"
