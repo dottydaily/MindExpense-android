@@ -10,7 +10,7 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycle = "2.8.7"
 activityCompose = "1.10.1"
-composeBom = "2025.03.00"
+composeBom = "2025.03.01"
 navigation = "2.8.9"
 androidTools = "31.9.1"
 androidCoreLibraryDesugaring = "2.1.5"
@@ -20,6 +20,8 @@ material = "1.12.0"
 room = "2.6.1"
 timber = "5.0.1"
 mockk = "1.13.17"
+googleServices = "4.4.2"
+firebase = "33.12.0"
 
 [libraries]
 # Being used indirectly by convention plugin
@@ -71,6 +73,8 @@ koin-navigation = { group = "io.insert-koin", name = "koin-androidx-compose-navi
 # Being used indirectly by convention plugin
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+platform-firebaseBom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 
 # Dependencies of the included build-logic
 android-tools-androidGradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -98,6 +102,7 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 
 # All defined convention plugin in :build-logic:convention module.
 convention-androidApplication = { id = "convention.android-application", version = "unspecified" }
@@ -113,4 +118,4 @@ convention-koinAndroid = { id = "convention.koin-android", version = "unspecifie
 convention-roomAndroid = { id = "convention.room-android", version = "unspecified" }
 convention-roomCommonNonAndroid = { id = "convention.room-common", version = "unspecified" }
 convention-testCore = { id = "convention.test-core", version = "unspecified" }
-
+convention-firebaseApplication = { id = "convention.firebase", version = "unspecified" }

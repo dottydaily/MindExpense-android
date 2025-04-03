@@ -105,5 +105,9 @@ gradlePlugin {
             id = "convention.test-core"
             implementationClass = "JvmTestConventionPlugin"
         }
+        register("firebaseApplicationConvention") {
+            id = "convention.firebase"
+            implementationClass = "FirebaseApplicationConventionPlugin"
+        }
     }
 }
