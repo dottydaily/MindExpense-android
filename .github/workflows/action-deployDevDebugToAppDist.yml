@@ -44,7 +44,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Create google-services.json
-        run: echo "GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT" > app/src/dev/google-services.json
+        run: echo "GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT" > app/src/devDebug/google-services.json
         env:
           GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT }}
 
