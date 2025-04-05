@@ -1,11 +1,11 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Deploy devDebug API to Firebase App Distribution.
+name: Run unit tests when PR has been opened.
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
+  pull_request:
     branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -15,7 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    name: Test, Build and Upload to App distribution
+    name: Run unit tests.
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -41,29 +41,5 @@ jobs:
       - name: Change Gradle Wrapper permissions
         run: chmod +x ./gradlew
 
-      - name: Create google-services.json
-        run: echo "$GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT_ENCRYPTED" | base64 -di > app/src/devDebug/google-services.json
-        env:
-          GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT_ENCRYPTED: ${{ secrets.GOOGLE_SERVICES_JSON_DEV_DEBUG_CONTENT_ENCRYPTED }}
-
-      - name: Replace versionCode in AndroidBuildConfig.kt
-        run: |
-          echo "Replacing with running number of this workflow ($BUILD_NUMBER)"
-          sed -i "s/const val VERSION_CODE = \([0-9]\+\)/const val VERSION_CODE = $BUILD_NUMBER/g" build-logic/convention/src/main/kotlin/com/purkt/convention/plugin/AndroidBuildConfig.kt
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-
       - name: Run tests
         run: ./gradlew testDebugUnitTest
-
-      - name: Build Project
-        run: ./gradlew :app:assembleDevDebug
-
-      - name: upload artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.FIREBASE_APP_ID}}
-          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
-          groups: internal-tester
-          file: app/build/outputs/apk/dev/debug/app-dev-debug.apk
-          debug: true
