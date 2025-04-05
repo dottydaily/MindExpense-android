@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.convention.featureCompose)
+    alias(libs.plugins.convention.feature)
     alias(libs.plugins.convention.koinAndroid)
 }
 

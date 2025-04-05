@@ -29,6 +29,10 @@ kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.re
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutinesTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 androidx-coreKtx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+# Being used indirectly by convention plugin
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+# Being used indirectly by convention plugin
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-lifecycleViewModelKtx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycleRuntimeKtx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -81,9 +85,7 @@ android-tools-androidGradlePlugin = { group = "com.android.tools.build", name = 
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-roomGradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [bundles]
 composeBasic = ["compose-material3", "compose-ui", "compose-uiGraphics"]
@@ -106,13 +108,14 @@ googleServices = { id = "com.google.gms.google-services", version.ref = "googleS
 
 # All defined convention plugin in :build-logic:convention module.
 convention-androidApplication = { id = "convention.android-application", version = "unspecified" }
+convention-xml = { id = "convention.xml", version = "unspecified" }
 convention-composeApplication = { id = "convention.compose-application", version = "unspecified" }
 convention-flavorApplication = { id = "convention.flavor-application", version = "unspecified" }
 convention-libraryAndroid = { id = "convention.library-android", version = "unspecified" }
 convention-libraryJvm = { id = "convention.library-jvm", version = "unspecified" }
 convention-composeLibrary = { id = "convention.compose-library", version = "unspecified" }
 convention-flavorLibrary = { id = "convention.flavor-library", version = "unspecified" }
-convention-featureCompose = { id = "convention.feature-compose", version = "unspecified" }
+convention-feature = { id = "convention.feature", version = "unspecified" }
 convention-koinCore = { id = "convention.koin-core", version = "unspecified" }
 convention-koinAndroid = { id = "convention.koin-android", version = "unspecified" }
 convention-roomAndroid = { id = "convention.room-android", version = "unspecified" }

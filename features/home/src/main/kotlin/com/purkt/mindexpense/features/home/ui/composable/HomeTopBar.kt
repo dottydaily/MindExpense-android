@@ -1,6 +1,5 @@
 package com.purkt.mindexpense.features.home.ui.composable
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LocalContentColor
@@ -16,9 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import com.purkt.mindexpense.core.data.common.formatCurrencyOrNull
-import com.purkt.mindexpense.core.ui.resources.R
+import com.purkt.mindexpense.core.ui.common.R
 
 @Composable
 internal fun HomeTopBar(
@@ -29,17 +27,16 @@ internal fun HomeTopBar(
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.End,
-        verticalArrangement = Arrangement.spacedBy(space = 0.dp),
+        horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.home_top_bar_label),
             color = titleColor,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.displayMedium,
             text = totalAmount.formatCurrencyOrNull() ?: "-",
             color = amountColor,
             fontWeight = FontWeight.Bold,

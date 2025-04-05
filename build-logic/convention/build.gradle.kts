@@ -57,6 +57,10 @@ gradlePlugin {
             id = "convention.android-application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
+        register("XmlConvention") {
+            id = "convention.xml"
+            implementationClass = "XmlConventionPlugin"
+        }
         register("applicationComposeConvention") {
             id = "convention.compose-application"
             implementationClass = "ApplicationComposeConventionPlugin"
@@ -81,9 +85,9 @@ gradlePlugin {
             id = "convention.flavor-library"
             implementationClass = "LibraryFlavorConventionPlugin"
         }
-        register("featureComposeConvention") {
-            id = "convention.feature-compose"
-            implementationClass = "FeatureComposeConventionPlugin"
+        register("featureConvention") {
+            id = "convention.feature"
+            implementationClass = "FeatureConventionPlugin"
         }
         register("koinCoreConvention") {
             id = "convention.koin-core"

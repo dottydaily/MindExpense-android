@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
  * Route for Profile screen.
  */
 @Serializable
-data object ProfileRoute
+internal data object ProfileRoute
 
 /**
  * Route for Profile graph..
@@ -20,7 +20,7 @@ data object ProfileRoute
 @Serializable
 data object ProfileGraphRoute
 
-fun NavController.navigateToProfile(navOptions: NavOptions) {
+fun NavController.navigateToProfile(navOptions: NavOptions? = null) {
     navigate(route = ProfileRoute, navOptions = navOptions)
 }
 
