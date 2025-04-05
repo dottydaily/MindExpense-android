@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
  * Route for Home screen.
  */
 @Serializable
-data object HomeRoute
+internal data object HomeRoute
 
 /**
  * Route for Home graph.
@@ -20,14 +20,14 @@ data object HomeRoute
 @Serializable
 data object HomeGraphRoute
 
-fun NavController.navigateToHome(navOptions: NavOptions) {
+fun NavController.navigateToHome(navOptions: NavOptions? = null) {
     navigate(route = HomeRoute, navOptions = navOptions)
 }
 
-fun NavGraphBuilder.homeGraph() {
+fun NavGraphBuilder.homeGraph(onOuterGoToExpenseAddScreen: () -> Unit) {
     navigation<HomeGraphRoute>(startDestination = HomeRoute) {
         composable<HomeRoute>{
-            HomeScreen()
+            HomeScreen(onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen)
         }
     }
 }

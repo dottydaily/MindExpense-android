@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_bar_home_label">หน้าหลัก</string>
+    <string name="bottom_bar_profile_label">ข้อมูลผู้ใช้</string>"
+    <string name="home_top_bar_label">ยอดสุทธิ</string>
+    <string name="home_fab_label">เพิ่ม</string>
+    <string name="expense_recipent_label">ผู้รับ</string>
+    <string name="expense_delete">ลบ</string>
+    <string name="expense_paid_at_label">จ่ายเมื่อ</string>
+    <string name="expense_add_title">เพิ่มค่าใช้จ่าย</string>
+    <string name="expense_edit_title">แก้ไขค่าใช้จ่าย</string>
+    <string name="expense_item_title_hint">ชื่อค่าใช้จ่าย</string>
+    <string name="expense_item_recipient_hint">ชื่อผู้รับ</string>
+    <string name="expense_item_note_hint">(ไม่บังคับ) รายละเอียดเพิ่มเติม</string>
+    <string name="expense_item_amount_hint">ยอดค่าใช้จ่าย</string>
+    <string name="expense_item_title_error">– ควรเป็นตัวอักษรหรือตัวเลข\n- ไม่ควรเป็นข้อความว่างเปล่า\n- ควรมีความยาว 1-30 ตัวอักษร</string>
+    <string name="expense_item_recipient_error">- ควรเป็นตัวอักษรหรือตัวเลข\n- ไม่ควรเป็นข้อความว่างเปล่า\n- ควรมีความยาว 1-20 ตัวอักษร</string>
+    <string name="expense_item_amount_error">- ควรเป็นค่า 0-999,999,999.99</string>
+    <string name="expense_item_note_error">- ควรมีความยาว 1-200 ตัวอักษร</string>
+</resources>

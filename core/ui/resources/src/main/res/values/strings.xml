@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="home_top_bar_label">Total amount</string>
-    <string name="home_expense_recipent_label">Recipient</string>
-    <string name="home_expense_delete">Delete</string>
-    <string name="home_expense_paid_at_label">Paid on</string>
-</resources>

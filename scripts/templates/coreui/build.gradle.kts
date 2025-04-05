@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.convention.libraryAndroid)
-    alias(libs.plugins.convention.xml)
     alias(libs.plugins.convention.composeLibrary)
 }
 
 android {
-    namespace = "com.purkt.mindexpense.core.ui.common"
+    namespace = "com.purkt.mindexpense.core.ui.%%FEATURE_NAME%%"
 }
 
 dependencies {

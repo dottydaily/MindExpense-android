@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.convention.featureCompose)
+    alias(libs.plugins.convention.feature)
     alias(libs.plugins.convention.koinAndroid)
 }
 
@@ -13,5 +13,5 @@ dependencies {
     implementation(projects.core.domain.expense)
     implementation(projects.core.domain.users)
     implementation(projects.core.ui.common)
-    implementation(projects.core.ui.resources)
+    implementation(projects.core.ui.expense)
 }
