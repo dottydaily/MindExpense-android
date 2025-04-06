@@ -24,6 +24,9 @@ data class User(
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     val isUsing: Boolean = false,
 ) {
+    val uniqueId: String = if (remoteId != null) "R-$remoteId" else "L-$localId"
+    val currentId: Int = remoteId ?: localId
+
     fun isOnline(): Boolean = remoteId != null
 
     companion object {
