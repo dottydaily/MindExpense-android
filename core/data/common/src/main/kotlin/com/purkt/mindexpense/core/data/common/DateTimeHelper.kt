@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
 const val DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss"
 const val DATE_FULL_PATTERN = "EEEE, d MMMM yyyy"
 const val TIME_12_HOUR_FORMAT_PATTERN = "hh:mm a"
+const val DATE_TIME_12_HOUR_FORMAT_PATTERN = "EEE, d MMM yyyy\n$TIME_12_HOUR_FORMAT_PATTERN"
 
 fun LocalDateTime.toDateTimeStringOrNull(pattern: String = DATE_TIME_PATTERN): String? {
     try {

@@ -51,6 +51,7 @@ import com.purkt.mindexpense.core.data.common.toDateTimeStringOrNull
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.ui.common.R
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
+import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreviewAllScales
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import java.time.LocalDateTime
 
@@ -198,7 +199,7 @@ private fun HeaderSection(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         TitleRecipientSection(
-            modifier = Modifier.weight(3f),
+            modifier = Modifier.weight(1f),
             title = title,
             recipient = recipient,
             isPreviewMode = isPreviewMode,
@@ -228,6 +229,7 @@ private fun TitleRecipientSection(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_s)),
     ) {
         Text(
+            modifier = Modifier.wrapAsError(isError = isTitleError),
             style = MaterialTheme.typography.titleLarge,
             text = if (isPreviewMode) {
                 title.ifBlank { stringResource(id = R.string.expense_item_title_hint) }
@@ -239,6 +241,7 @@ private fun TitleRecipientSection(
             ),
         )
         Text(
+            modifier = Modifier.wrapAsError(isError = isRecipientError),
             style = MaterialTheme.typography.labelLarge,
             text = buildAnnotatedString {
                 val label = stringResource(id = R.string.expense_recipent_label)
@@ -256,7 +259,7 @@ private fun TitleRecipientSection(
                             color = LocalContentColor.current.onCondition(
                                 showAsError = isRecipientError,
                                 showAsHint = isPreviewMode && recipient.isBlank(),
-                            )
+                            ),
                         )
                 ) {
                     append(
@@ -266,6 +269,10 @@ private fun TitleRecipientSection(
                     )
                 }
             },
+            color = LocalContentColor.current.onCondition(
+                showAsError = isRecipientError,
+                showAsHint = false,
+            ),
         )
     }
 }
@@ -281,14 +288,19 @@ private fun AmountPaidAtSection(
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_s)),
     ) {
+        val displayAmount = amount.formatCurrencyOrNull() ?: "-"
+        val baseBigStyle = MaterialTheme.typography.titleLarge
+        val baseSmallStyle = MaterialTheme.typography.bodySmall
+
         Text(
-            style = MaterialTheme.typography.titleLarge,
-            text = amount.formatCurrencyOrNull() ?: "-",
+            modifier = Modifier.wrapAsError(isError = isAmountError),
+            style = if (displayAmount.length > 10) baseSmallStyle else baseBigStyle,
+            text = displayAmount,
             fontWeight = FontWeight.Bold,
             color = LocalContentColor.current.onCondition(
                 showAsError = isAmountError,
                 showAsHint = false,
-            )
+            ),
         )
         PaidAtTimeText(paidAt = paidAt)
     }
@@ -380,6 +392,7 @@ private fun DescriptionSection(
     Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_s))) {
         if (isPreviewMode || note.isNotBlank()) {
             Text(
+                modifier = Modifier.wrapAsError(isError = isNoteError),
                 style = MaterialTheme.typography.bodyMedium,
                 text = if (isPreviewMode) {
                     note.ifBlank { stringResource(id = R.string.expense_item_note_hint) }
@@ -425,7 +438,7 @@ private fun PreviewExpenseItemExpanded(
 
 @MindExpensePreview
 @Composable
-private fun PreviewExpenseItemDefault(
+private fun PreviewExpenseItemDefaultWithExpense(
     @PreviewParameter(PreviewExpenseProvider::class) expense: Expense,
 ) {
     MindExpenseTheme {
@@ -440,7 +453,7 @@ private fun PreviewExpenseItemDefault(
 
 @MindExpensePreview
 @Composable
-private fun PreviewExpenseItemDefault() {
+private fun PreviewExpenseItemDefaultWithRawData() {
     MindExpenseTheme {
         Surface {
             ExpenseItem(
@@ -457,6 +470,54 @@ private fun PreviewExpenseItemDefault() {
     }
 }
 
+@MindExpensePreview
+@Composable
+private fun PreviewExpenseItemError() {
+    MindExpenseTheme {
+        Surface {
+            ExpenseItem(
+                modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.spacer_l)),
+                isExpanded = true,
+                title = "",
+                recipient = "",
+                amount = 0.0,
+                paidAt = LocalDateTime.now(),
+                note = "",
+                isTitleError = true,
+                isRecipientError = true,
+                isAmountError = true,
+                isNoteError = true,
+                isPreviewMode = true,
+            )
+        }
+    }
+}
+
+@MindExpensePreviewAllScales
+@Composable
+private fun PreviewExpenseItemAllScales() {
+    MindExpenseTheme {
+        Surface {
+            Column(
+                modifier = Modifier.padding(dimensionResource(R.dimen.spacer_l)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_l)),
+            ) {
+                ExpenseItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    data = mockExpenseAmountBeforeResized,
+                    isPreviewMode = true,
+                )
+
+                ExpenseItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    data = mockExpenseBiggestAmountResized,
+                    isPreviewMode = true,
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun Color.onCondition(
     showAsError: Boolean = false,
@@ -467,4 +528,15 @@ private fun Color.onCondition(
         showAsHint -> copy(alpha = 0.5f)
         else -> this
     }
+}
+
+@Composable
+private fun Modifier.wrapAsError(
+    isError: Boolean,
+    nonErrorContainerColor: Color = Color.Transparent,
+    errorContainerColor: Color = MaterialTheme.colorScheme.onError
+): Modifier {
+    return this
+        .run { if (isError) { clip(RoundedCornerShape(dimensionResource(R.dimen.size_s))) } else this }
+        .background(if (isError) errorContainerColor else nonErrorContainerColor)
 }

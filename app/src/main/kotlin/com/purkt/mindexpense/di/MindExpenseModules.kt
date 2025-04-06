@@ -2,6 +2,7 @@ package com.purkt.mindexpense.di
 
 import com.purkt.mindexpense.core.database.di.coreDatabaseModule
 import com.purkt.mindexpense.core.logging.MyLogger
+import com.purkt.mindexpense.features.expense.di.featureExpenseModule
 import com.purkt.mindexpense.features.home.di.featureHomeModule
 import com.purkt.mindexpense.logger.MyLoggerImpl
 import com.purkt.mindexpense.features.profile.di.featureUsersModule
@@ -14,6 +15,7 @@ internal val mindExpenseAppModules = module {
         coreDatabaseModule,
         featureHomeModule,
         featureUsersModule,
+        featureExpenseModule,
     )
 
     singleOf(::MyLoggerImpl) { bind<MyLogger>() }

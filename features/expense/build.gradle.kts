@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.core.domain.users)
     implementation(projects.core.ui.common)
     implementation(projects.core.ui.expense)
+    implementation(projects.core.logging)
 }

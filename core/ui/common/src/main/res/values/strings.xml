@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="common_ok_label">OK</string>
+    <string name="common_cancel_label">Cancel</string>
     <string name="bottom_bar_home_label">Home</string>
     <string name="bottom_bar_profile_label">Profile</string>"
     <string name="home_top_bar_label">Total amount</string>
@@ -9,12 +11,16 @@
     <string name="expense_paid_at_label">Paid on</string>
     <string name="expense_add_title">Add a new expense</string>
     <string name="expense_edit_title">Edit expense</string>
+    <string name="expense_item_preview_label">Preview of expense</string>
     <string name="expense_item_title_hint">Expense title</string>
     <string name="expense_item_recipient_hint">Recipient name</string>
     <string name="expense_item_note_hint">(Optional) More detail</string>
     <string name="expense_item_amount_hint">Amount</string>
-    <string name="expense_item_title_error">- Should be alphabet, number.\n- Should not be empty space.\n- Should be 1-30 characters.</string>
+    <string name="expense_item_title_error">- Should not be empty space.\n- Should be 1-30 characters.</string>
     <string name="expense_item_recipient_error">- Should be alphabet, number.\n- Should not be empty space.\n- Should be 1-20 characters.</string>
     <string name="expense_item_amount_error">- Should be 0-999,999,999.99.</string>
     <string name="expense_item_note_error">- Should be 0-200 characters.</string>
+    <string name="expense_date_time_button_label">Pick date/time</string>
+    <string name="expense_discard_label">Discard</string>
+    <string name="expense_save_label">Save</string>
 </resources>

@@ -9,6 +9,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.data.common)
+
     implementation(libs.androidx.coreKtx)
     implementation(libs.bundles.composeBasic)
 }
