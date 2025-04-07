@@ -11,6 +11,7 @@ import com.purkt.mindexpense.core.domain.expense.usecase.ValidateExpenseNoteUseC
 import com.purkt.mindexpense.core.domain.expense.usecase.ValidateExpenseRecipientUseCase
 import com.purkt.mindexpense.core.domain.expense.usecase.ValidateExpenseTitleUseCase
 import com.purkt.mindexpense.core.domain.users.usecase.GetCurrentUserOrCreateNewOneUseCase
+import com.purkt.mindexpense.core.ui.common.model.UiEvent
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +39,7 @@ internal abstract class BaseExpenseViewModel(
     var isNoteError by mutableStateOf(false); private set
     var maxNoteLength: Int? by mutableStateOf(validateExpenseNoteUseCase.maxLength); private set
     var paidAt: LocalDateTime by mutableStateOf(LocalDateTime.now()); private set
+    var goBackUiEvent: UiEvent<Boolean> by mutableStateOf(UiEvent(false)); private set
 
     init {
         viewModelScope.launch {
@@ -77,5 +79,9 @@ internal abstract class BaseExpenseViewModel(
 
     fun updatePaidAt(paidAtInput: LocalDateTime) {
         paidAt = paidAtInput
+    }
+
+    fun triggerGoBackUiEvent() {
+        goBackUiEvent = UiEvent(true)
     }
 }

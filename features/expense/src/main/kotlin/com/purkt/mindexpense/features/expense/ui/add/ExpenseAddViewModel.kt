@@ -31,7 +31,7 @@ internal class ExpenseAddViewModel(
 
         viewModelScope.launch {
             try {
-                createExpenseUseCase.execute(
+                val isAdded = createExpenseUseCase.execute(
                     expense = Expense(
                         ownerUserId = currentUserId!!,
                         title = title,
@@ -41,6 +41,10 @@ internal class ExpenseAddViewModel(
                         paidAt = paidAt,
                     ),
                 )
+
+                if (isAdded) {
+                    triggerGoBackUiEvent()
+                }
             } catch (e: Throwable) {
                 AppLogger.e(e)
             }

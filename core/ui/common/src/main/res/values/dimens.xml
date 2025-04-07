@@ -12,4 +12,5 @@
     <dimen name="spacer_xl">32dp</dimen>
     <dimen name="button_min_width">120dp</dimen>
     <dimen name="button_min_height">48dp</dimen>
+    <dimen name="icon_button_min_size">48dp</dimen>
 </resources>

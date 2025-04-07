@@ -1,62 +1,61 @@
 package com.purkt.mindexpense.features.expense.ui.composable
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import com.purkt.mindexpense.core.ui.common.R
-import com.purkt.mindexpense.core.ui.common.composable.DateAndTimePicker
+import com.purkt.mindexpense.core.ui.common.composable.InputField
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
 import com.purkt.mindexpense.core.ui.common.composable.drawVerticalScrollBar
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import com.purkt.mindexpense.core.ui.expense.composable.ExpenseItem
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 internal enum class ExpenseScreenType {
@@ -124,14 +123,17 @@ internal fun BaseExpenseScreen(
 
             Column(
                 modifier = Modifier
+                    .weight(1f)
                     .drawVerticalScrollBar(
                         scrollState = scrollState,
                         scrollBarColor = MaterialTheme.colorScheme.tertiary
                     )
                     .verticalScroll(scrollState)
                     .padding(dimensionResource(id = R.dimen.spacer_l)),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_l))
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_m))
             ) {
+                var shouldExpandShowCase by rememberSaveable { mutableStateOf(false) }
+
                 ExpenseItemShowCase(
                     modifier = Modifier.fillMaxWidth(),
                     title = title,
@@ -143,67 +145,32 @@ internal fun BaseExpenseScreen(
                     paidAt = paidAt,
                     note = note,
                     isNoteError = isNoteError,
+                    isExpandedShowCase = shouldExpandShowCase,
                 )
                 HorizontalDivider()
-                
-                // Title
-                ExpenseItemInputField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = title,
-                    onValueChange = onTitleChanged,
-                    maxLength = maxTitleLength,
-                    labelHint = stringResource(id = R.string.expense_item_title_hint),
-                    isError = isTitleError,
-                    errorText = stringResource(id = R.string.expense_item_title_error),
-                )
 
-                // Recipient
-                ExpenseItemInputField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = recipient,
-                    onValueChange = onRecipientChanged,
-                    maxLength = maxRecipientLength,
-                    labelHint = stringResource(id = R.string.expense_item_recipient_hint),
-                    isError = isRecipientError,
-                    errorText = stringResource(id = R.string.expense_item_recipient_error),
-                )
-
-                // Amount
-                ExpenseItemInputField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = displayAmount,
-                    onValueChange = onAmountChanged,
-                    labelHint = stringResource(id = R.string.expense_item_amount_hint),
-                    isError = isAmountError,
-                    errorText = stringResource(id = R.string.expense_item_amount_error),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                )
-
-                // Paid at date and time
-                PaidAtDateTimePicker(
+                InputPager(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(dimensionResource(R.dimen.size_m)))
-                        .background(MaterialTheme.colorScheme.tertiaryContainer)
-                        .padding(dimensionResource(R.dimen.spacer_m))
-                        .padding(vertical = dimensionResource(R.dimen.spacer_m)),
-                    buttonColor = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiary,
-                    ),
+                        .weight(1f),
+                    title = title,
+                    onTitleChanged = onTitleChanged,
+                    isTitleError = isTitleError,
+                    maxTitleLength = maxTitleLength,
+                    recipient = recipient,
+                    onRecipientChanged = onRecipientChanged,
+                    isRecipientError = isRecipientError,
+                    maxRecipientLength = maxRecipientLength,
+                    displayAmount = displayAmount,
+                    onAmountChanged = onAmountChanged,
+                    isAmountError = isAmountError,
                     paidAt = paidAt,
                     onPaidAtChanged = onPaidAtChanged,
-                )
-                
-                // Detail note (Optional)
-                ExpenseItemInputField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = note,
-                    onValueChange = onNoteChanged,
-                    maxLength = maxNoteLength,
-                    labelHint = stringResource(id = R.string.expense_item_note_hint),
-                    isError = isNoteError,
-                    errorText = stringResource(id = R.string.expense_item_note_error),
-                    minLines = 5,
+                    note = note,
+                    onNoteChanged = onNoteChanged,
+                    isNoteError = isNoteError,
+                    maxNoteLength = maxNoteLength,
+                    onUpdateExpandShowCase = { shouldExpandShowCase = it }
                 )
             }
         }
@@ -238,6 +205,7 @@ private fun ExpenseItemShowCase(
     paidAt: LocalDateTime,
     note: String,
     isNoteError: Boolean = false,
+    isExpandedShowCase: Boolean = false,
 ) {
     Column(
         modifier = modifier.width(IntrinsicSize.Min),
@@ -262,7 +230,7 @@ private fun ExpenseItemShowCase(
         )
         ExpenseItem(
             modifier = Modifier.fillMaxWidth(),
-            isExpanded = true,
+            isExpanded = isExpandedShowCase,
             title = title,
             isTitleError = isTitleError,
             recipient = recipient,
@@ -278,159 +246,228 @@ private fun ExpenseItemShowCase(
 }
 
 @Composable
-private fun ExpenseItemInputField(
+private fun InputPager(
     modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (String) -> Unit,
-    maxLength: Int? = null,
-    labelHint: String = "",
-    isError: Boolean,
-    errorText: String = "",
-    minLines: Int = 1,
-    maxLines: Int = Int.MAX_VALUE,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    title: String = "",
+    onTitleChanged: (String) -> Unit = {},
+    isTitleError: Boolean = false,
+    maxTitleLength: Int? = null,
+    recipient: String = "",
+    onRecipientChanged: (String) -> Unit = {},
+    isRecipientError: Boolean = false,
+    maxRecipientLength: Int? = null,
+    displayAmount: String = "",
+    onAmountChanged: (String) -> Unit = {},
+    isAmountError: Boolean = false,
+    paidAt: LocalDateTime = LocalDateTime.now(),
+    onPaidAtChanged: (LocalDateTime) -> Unit = {},
+    note: String = "",
+    onNoteChanged: (String) -> Unit = {},
+    isNoteError: Boolean = false,
+    maxNoteLength: Int? = null,
+    onUpdateExpandShowCase: (Boolean) -> Unit = {},
 ) {
-    Column(
-        modifier = modifier.width(IntrinsicSize.Max),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_s)),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.Bottom,
-        ) {
-            AnimatedVisibility(
-                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.spacer_s)),
-                visible = isError && errorText.isNotBlank(),
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically(),
-            ) {
-                Text(
-                    style = MaterialTheme.typography.labelLarge,
-                    text = errorText,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Text(
-                style = MaterialTheme.typography.labelLarge,
-                text = if (maxLength != null) {
-                    "${value.length}/$maxLength"
-                } else "${value.length}",
-                color = if (maxLength != null && value.length > maxLength) {
-                    MaterialTheme.colorScheme.error
-                } else Color.Unspecified,
-            )
-        }
-
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(text = labelHint) },
-            isError = isError,
-            keyboardOptions = keyboardOptions,
-            minLines = minLines,
-            maxLines = maxLines,
-        )
-    }
-}
-
-@Composable
-private fun PaidAtDateTimePicker(
-    modifier: Modifier = Modifier,
-    buttonColor: ButtonColors = ButtonDefaults.buttonColors(),
-    paidAt: LocalDateTime,
-    onPaidAtChanged: (LocalDateTime) -> Unit,
-) {
-    DateAndTimePicker(
-        modifier = modifier,
-        buttonColor = buttonColor,
-        dateTime = paidAt,
-        onDateTimeChanged = onPaidAtChanged,
+    val viewTypesCollapse = listOf(
+        InputPagerViewType.TITLE,
+        InputPagerViewType.RECIPIENT,
+        InputPagerViewType.AMOUNT,
     )
-}
+    val viewTypesExpanded = listOf(
+        InputPagerViewType.PAID_AT,
+        InputPagerViewType.NOTE,
+    )
+    val viewTypesInOrder = viewTypesCollapse + viewTypesExpanded
 
-@Composable
-private fun ButtonBarLayout(
-    modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = contentColorFor(containerColor),
-    onClickSubmitButton: () -> Unit,
-    onClickCancelButton: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .background(containerColor)
-            .then(modifier)
-            .width(IntrinsicSize.Min),
+    val (
+        focusRequesterTitle,
+        focusRequesterRecipient,
+        focusRequesterAmount,
+        focusRequesterNote,
+    ) = remember { FocusRequester.createRefs() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+
+    val hideImeKeyboard = {
+        focusManager.clearFocus()
+        keyboardController?.hide()
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+    val totalPage = viewTypesInOrder.size
+    val state = rememberPagerState { totalPage }
+    var currentViewType by rememberSaveable { mutableStateOf(viewTypesInOrder.first()) }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_m))
     ) {
-        CompositionLocalProvider(LocalContentColor provides contentColor) {
-            CancelButton(onClick = onClickCancelButton)
-            Spacer(modifier = Modifier.weight(1f))
-            SaveButton(
-                onClick = onClickSubmitButton,
-                containerColor = contentColor,
-                contentColor = containerColor,
-            )
+        // Update expand show case state
+        LaunchedEffect(state.currentPage) {
+            viewTypesInOrder.getOrNull(state.currentPage)?.let { currentViewType = it }
         }
-    }
-}
+        LaunchedEffect(currentViewType) {
+            onUpdateExpandShowCase.invoke(currentViewType in viewTypesExpanded)
 
-@Composable
-private fun CancelButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    contentColor: Color = LocalContentColor.current,
-) {
-    TextButton(
-        modifier = modifier.defaultMinSize(
-            minWidth = dimensionResource(id = R.dimen.button_min_width),
-            minHeight = dimensionResource(id = R.dimen.button_min_height),
-        ),
-        onClick = onClick,
-    ) {
-        Text(
-            style = MaterialTheme.typography.titleMedium,
-            text = stringResource(id = R.string.expense_discard_label),
-            fontWeight = FontWeight.Bold,
-            color = contentColor,
-        )
-    }
-}
+            // Reset all focus
+            try {
+                when (currentViewType) {
+                    InputPagerViewType.TITLE -> {
+                        focusRequesterTitle.requestFocus()
+                    }
+                    InputPagerViewType.RECIPIENT -> {
+                        focusRequesterRecipient.requestFocus()
+                    }
+                    InputPagerViewType.AMOUNT -> {
+                        focusRequesterAmount.requestFocus()
+                    }
+                    InputPagerViewType.PAID_AT -> {
+                        hideImeKeyboard.invoke()
+                    }
+                    InputPagerViewType.NOTE -> {
+                        focusRequesterNote.requestFocus()
+                    }
+                }
+            } catch (_: Throwable) { }
+        }
 
-@Composable
-private fun SaveButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    containerColor: Color,
-    contentColor: Color = contentColorFor(containerColor),
-) {
-    Button(
-        modifier = modifier.defaultMinSize(
-            minWidth = dimensionResource(id = R.dimen.button_min_width),
-            minHeight = dimensionResource(id = R.dimen.button_min_height),
-        ),
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = containerColor,
-            contentColor = contentColor,
-        ),
-    ) {
+        // Pager controls
         Row(
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.spacer_s)),
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_l)),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = Icons.Default.CheckCircle,
-                contentDescription = "Save icon of save button",
-            )
+            IconButton(
+                onClick = {
+                    coroutineScope.launch {
+                        val targetPage = (state.currentPage - 1).coerceAtLeast(0)
+                        state.animateScrollToPage(targetPage)
+                    }
+                },
+                enabled = state.currentPage > 0
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.size_xl))
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .padding(dimensionResource(R.dimen.spacer_xs)),
+                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
+                    contentDescription = "Left arrow for input pager",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
             Text(
-                style = MaterialTheme.typography.titleMedium,
-                text = stringResource(id = R.string.expense_save_label),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(50))
+                    .background(MaterialTheme.colorScheme.primary)
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.spacer_m),
+                        vertical = dimensionResource(R.dimen.spacer_xs),
+                    )
+                ,
+                style = MaterialTheme.typography.titleSmall,
+                text = "${state.currentPage + 1}/$totalPage",
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimary,
             )
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {
+                    coroutineScope.launch {
+                        val targetPage = (state.currentPage + 1).coerceAtMost(totalPage - 1)
+                        state.animateScrollToPage(targetPage)
+                    }
+                },
+                enabled = state.currentPage < totalPage - 1
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.size_xl))
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primary)
+                        .padding(dimensionResource(R.dimen.spacer_xs)),
+                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                    contentDescription = "Right arrow for input pager",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                )
+            }
+        }
+
+        // Pager
+        HorizontalPager(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            state = state,
+            verticalAlignment = Alignment.Top,
+            pageSpacing = dimensionResource(R.dimen.spacer_l)
+        ) { page ->
+            when (page) {
+                InputPagerViewType.TITLE.ordinal -> {
+                    // Title
+                    InputField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = title,
+                        onValueChange = onTitleChanged,
+                        maxLength = maxTitleLength,
+                        labelHint = stringResource(id = R.string.expense_item_title_hint),
+                        isError = isTitleError,
+                        errorText = stringResource(id = R.string.expense_item_title_error),
+                        focusRequester = focusRequesterTitle,
+                    )
+                }
+                InputPagerViewType.RECIPIENT.ordinal -> {
+                    // Recipient
+                    InputField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = recipient,
+                        onValueChange = onRecipientChanged,
+                        maxLength = maxRecipientLength,
+                        labelHint = stringResource(id = R.string.expense_item_recipient_hint),
+                        isError = isRecipientError,
+                        errorText = stringResource(id = R.string.expense_item_recipient_error),
+                        focusRequester = focusRequesterRecipient,
+                    )
+                }
+                InputPagerViewType.AMOUNT.ordinal -> {
+                    // Amount
+                    InputField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = displayAmount,
+                        onValueChange = onAmountChanged,
+                        labelHint = stringResource(id = R.string.expense_item_amount_hint),
+                        isError = isAmountError,
+                        errorText = stringResource(id = R.string.expense_item_amount_error),
+                        focusRequester = focusRequesterAmount,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    )
+                }
+                InputPagerViewType.PAID_AT.ordinal -> {
+                    // Paid at date and time
+                    PaidAtDateTimePicker(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = dimensionResource(R.dimen.spacer_m)),
+                        paidAt = paidAt,
+                        onPaidAtChanged = onPaidAtChanged,
+                    )
+                }
+                InputPagerViewType.NOTE.ordinal -> {
+                    // Detail note (Optional)
+                    InputField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = note,
+                        onValueChange = onNoteChanged,
+                        maxLength = maxNoteLength,
+                        labelHint = stringResource(id = R.string.expense_item_note_hint),
+                        isError = isNoteError,
+                        errorText = stringResource(id = R.string.expense_item_note_error),
+                        minLines = 5,
+                        focusRequester = focusRequesterNote,
+                    )
+                }
+            }
         }
     }
 }
@@ -532,4 +569,8 @@ private fun PreviewBaseExpenseScreenForceError() {
             maxNoteLength = maxNoteLength,
         )
     }
+}
+
+private enum class InputPagerViewType {
+    TITLE, RECIPIENT, AMOUNT, PAID_AT, NOTE;
 }
