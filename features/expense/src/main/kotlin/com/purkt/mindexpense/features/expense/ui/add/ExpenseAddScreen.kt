@@ -1,6 +1,7 @@
 package com.purkt.mindexpense.features.expense.ui.add
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import com.purkt.mindexpense.features.expense.ui.composable.BaseExpenseScreen
 import com.purkt.mindexpense.features.expense.ui.composable.ExpenseScreenType
@@ -27,10 +28,19 @@ internal fun ExpenseAddScreen(
     val onUpdatePaidAt: (LocalDateTime) -> Unit = remember {
         { viewModel.updatePaidAt(paidAtInput = it) }
     }
-
     val onSubmit: () -> Unit = remember {
         { viewModel.submit() }
     }
+    val onGoBack: () -> Unit = remember {
+        { viewModel.triggerGoBackUiEvent() }
+    }
+
+    LaunchedEffect(key1 = viewModel.goBackUiEvent) {
+        if (viewModel.goBackUiEvent.consume() == true) {
+            onGoBackToPreviousPage.invoke()
+        }
+    }
+
     BaseExpenseScreen(
         mode = ExpenseScreenType.ADD,
         title = viewModel.title,
@@ -52,6 +62,6 @@ internal fun ExpenseAddScreen(
         isNoteError = viewModel.isNoteError,
         maxNoteLength = viewModel.maxNoteLength,
         onClickSubmitButton = onSubmit,
-        onGoBack = onGoBackToPreviousPage,
+        onGoBack = onGoBack,
     )
 }
