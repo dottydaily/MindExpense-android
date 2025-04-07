@@ -50,7 +50,7 @@ fun IconTextButton(
     ) {
         icon()
         Text(
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             text = text,
             fontWeight = FontWeight.Bold,
             maxLines = 1,
