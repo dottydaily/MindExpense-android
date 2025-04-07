@@ -38,7 +38,8 @@ fun MindExpenseDialog(
     onClickConfirm: () -> Unit,
     onClickDismiss: () -> Unit,
     confirmButtonText: String = stringResource(id = R.string.common_ok_label),
-    dismissButtonText: String? = null,
+    dismissButtonText: String = stringResource(R.string.common_cancel_label),
+    shouldShowDismissButton: Boolean = true,
 ) {
     Dialog(onDismissRequest = onClickDismiss) {
         Surface(
@@ -89,7 +90,7 @@ fun MindExpenseDialog(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (!dismissButtonText.isNullOrBlank()) {
+                    if (shouldShowDismissButton) {
                         IconTextButton(
                             modifier = Modifier.weight(1f),
                             onClick = onClickDismiss,
@@ -131,8 +132,22 @@ private fun PreviewMindExpenseDialog() {
                 message = "You action cannot be undone.",
                 onClickConfirm = {},
                 onClickDismiss = {},
-                confirmButtonText = stringResource(id = R.string.common_ok_label),
-                dismissButtonText = stringResource(id = R.string.common_cancel_label),
+            )
+        }
+    }
+}
+
+@MindExpensePreview
+@Composable
+private fun PreviewMindExpenseDialogHideCancel() {
+    MindExpenseTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            MindExpenseDialog(
+                title = "Operation success.",
+                message = "You are ready to continue.",
+                onClickConfirm = {},
+                onClickDismiss = {},
+                shouldShowDismissButton = false,
             )
         }
     }

@@ -23,10 +23,10 @@ internal class ValidateExpenseTitleUseCaseImpl : ValidateExpenseTitleUseCase {
                 throw Exception("Title cannot be longer than $maxLength characters")
             }
 
-            false
+            true
         } catch (e: Throwable) {
             AppLogger.e(e)
-            true
+            false
         }
     }
 }

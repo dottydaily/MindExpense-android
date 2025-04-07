@@ -23,4 +23,6 @@
     <string name="expense_date_time_button_label">Pick date/time</string>
     <string name="expense_discard_label">Discard</string>
     <string name="expense_save_label">Save</string>
+    <string name="expense_go_back_dialog_title">Do you want to discard changes?</string>
+    <string name="expense_submit_success_dialog_title">Save expense successfully</string>
 </resources>

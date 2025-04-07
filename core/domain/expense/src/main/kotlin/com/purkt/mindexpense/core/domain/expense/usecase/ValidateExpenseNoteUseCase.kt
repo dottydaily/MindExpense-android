@@ -23,10 +23,10 @@ internal class ValidateExpenseNoteUseCaseImpl : ValidateExpenseNoteUseCase {
                 throw Exception("Note cannot be longer than $maxLength characters")
             }
 
-            false
+            true
         } catch (e: Throwable) {
             AppLogger.e(e)
-            true
+            false
         }
     }
 }

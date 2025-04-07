@@ -41,6 +41,8 @@ fun Modifier.drawVerticalScrollBar(
         // then the viewportHeight should be 300.
         val viewportHeight = this.size.height
 
+        if (scrollState.maxValue == 0) return@drawWithContent // No need to draw scrollbar if there is no scrollable content
+
         // scrollState.maxValue is the maximum offset that this view can be scrolled in the corresponding axis.
         // if scrollState.maxValue is 200, then the total content's height should be 200 + viewPortHeight.
         val totalContentHeight = scrollState.maxValue.toFloat() + viewportHeight

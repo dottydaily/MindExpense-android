@@ -5,27 +5,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -48,11 +40,15 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.purkt.mindexpense.core.ui.common.R
+import com.purkt.mindexpense.core.ui.common.composable.ButtonBarLayout
 import com.purkt.mindexpense.core.ui.common.composable.InputField
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
+import com.purkt.mindexpense.core.ui.common.composable.PagerControllerView
 import com.purkt.mindexpense.core.ui.common.composable.drawVerticalScrollBar
+import com.purkt.mindexpense.core.ui.common.composable.rememberListener
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import com.purkt.mindexpense.core.ui.expense.composable.ExpenseItem
 import kotlinx.coroutines.launch
@@ -68,26 +64,56 @@ internal fun BaseExpenseScreen(
     mode: ExpenseScreenType = ExpenseScreenType.ADD,
     title: String = "",
     onTitleChanged: (String) -> Unit = {},
+    onValidateTitle: (String) -> Unit = {},
     isTitleError: Boolean = false,
     maxTitleLength: Int? = null,
     recipient: String = "",
     onRecipientChanged: (String) -> Unit = {},
+    onValidateRecipient: (String) -> Unit = {},
     isRecipientError: Boolean = false,
     maxRecipientLength: Int? = null,
     amount: Double = 0.0,
     displayAmount: String = "",
     onAmountChanged: (String) -> Unit = {},
+    onValidateAmount: (String) -> Unit = {},
     isAmountError: Boolean = false,
     paidAt: LocalDateTime = LocalDateTime.now(),
     onPaidAtChanged: (LocalDateTime) -> Unit = {},
     note: String = "",
     onNoteChanged: (String) -> Unit = {},
+    onValidateNote: (String) -> Unit = {},
     isNoteError: Boolean = false,
     maxNoteLength: Int? = null,
     onClickSubmitButton: () -> Unit = {},
+    onGoBackOrOpenConfirmDialog: () -> Unit = {},
+    isShowingGoBackConfirmDialog: Boolean = false,
+    onDismissGoBackConfirmDialog: () -> Unit = {},
+    isShowingSubmitSuccessDialog: Boolean = false,
+    onDismissSubmitSuccessDialog: () -> Unit = {},
     onGoBack: () -> Unit = {},
 ) {
-    BackHandler { onGoBack.invoke() }
+    BackHandler { onGoBackOrOpenConfirmDialog.invoke() }
+
+    ConfirmGoBackDialog(
+        isShowing = isShowingGoBackConfirmDialog,
+        onDismissDialog = onDismissGoBackConfirmDialog,
+        onClickConfirmButton = {
+            onDismissGoBackConfirmDialog.invoke()
+            onGoBack.invoke()
+        }
+    )
+
+    SubmitSuccessDialog(
+        isShowing = isShowingSubmitSuccessDialog,
+        onDismissDialog = {
+            onDismissSubmitSuccessDialog.invoke()
+            onGoBack.invoke()
+        },
+        onClickConfirmButton = {
+            onDismissSubmitSuccessDialog.invoke()
+            onGoBack.invoke()
+        },
+    )
 
     val surfaceColor = MaterialTheme.colorScheme.surface
     Scaffold(
@@ -101,7 +127,7 @@ internal fun BaseExpenseScreen(
                         horizontal = dimensionResource(id = R.dimen.spacer_l),
                         vertical = dimensionResource(id = R.dimen.spacer_m),
                     ),
-                onClickCancelButton = onGoBack,
+                onClickCancelButton = onGoBackOrOpenConfirmDialog,
                 onClickSubmitButton = onClickSubmitButton,
             )
         },
@@ -150,24 +176,26 @@ internal fun BaseExpenseScreen(
                 HorizontalDivider()
 
                 InputPager(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                    modifier = Modifier.fillMaxWidth(),
                     title = title,
                     onTitleChanged = onTitleChanged,
+                    onValidateTitle = onValidateTitle,
                     isTitleError = isTitleError,
                     maxTitleLength = maxTitleLength,
                     recipient = recipient,
                     onRecipientChanged = onRecipientChanged,
+                    onValidateRecipient = onValidateRecipient,
                     isRecipientError = isRecipientError,
                     maxRecipientLength = maxRecipientLength,
                     displayAmount = displayAmount,
                     onAmountChanged = onAmountChanged,
+                    onValidateAmount = onValidateAmount,
                     isAmountError = isAmountError,
                     paidAt = paidAt,
                     onPaidAtChanged = onPaidAtChanged,
                     note = note,
                     onNoteChanged = onNoteChanged,
+                    onValidateNote = onValidateNote,
                     isNoteError = isNoteError,
                     maxNoteLength = maxNoteLength,
                     onUpdateExpandShowCase = { shouldExpandShowCase = it }
@@ -250,19 +278,23 @@ private fun InputPager(
     modifier: Modifier = Modifier,
     title: String = "",
     onTitleChanged: (String) -> Unit = {},
+    onValidateTitle: (String) -> Unit = {},
     isTitleError: Boolean = false,
     maxTitleLength: Int? = null,
     recipient: String = "",
     onRecipientChanged: (String) -> Unit = {},
+    onValidateRecipient: (String) -> Unit = {},
     isRecipientError: Boolean = false,
     maxRecipientLength: Int? = null,
     displayAmount: String = "",
     onAmountChanged: (String) -> Unit = {},
+    onValidateAmount: (String) -> Unit = {},
     isAmountError: Boolean = false,
     paidAt: LocalDateTime = LocalDateTime.now(),
     onPaidAtChanged: (LocalDateTime) -> Unit = {},
     note: String = "",
     onNoteChanged: (String) -> Unit = {},
+    onValidateNote: (String) -> Unit = {},
     isNoteError: Boolean = false,
     maxNoteLength: Int? = null,
     onUpdateExpandShowCase: (Boolean) -> Unit = {},
@@ -296,6 +328,30 @@ private fun InputPager(
     val totalPage = viewTypesInOrder.size
     val state = rememberPagerState { totalPage }
     var currentViewType by rememberSaveable { mutableStateOf(viewTypesInOrder.first()) }
+
+    val goToPreviousPage: () -> Unit = rememberListener {
+        coroutineScope.launch {
+            val targetPage = (state.currentPage - 1).coerceAtLeast(0)
+            state.animateScrollToPage(targetPage)
+        }
+    }
+    val goToNextPage: () -> Unit = rememberListener {
+        // Validate input value of the current page before go to next page.
+        viewTypesInOrder.getOrNull(state.currentPage)?.let { currentViewType ->
+            when (currentViewType) {
+                InputPagerViewType.TITLE -> onValidateTitle.invoke(title)
+                InputPagerViewType.RECIPIENT -> onValidateRecipient.invoke(recipient)
+                InputPagerViewType.AMOUNT -> onValidateAmount.invoke(displayAmount)
+                InputPagerViewType.NOTE -> onValidateNote.invoke(note)
+                InputPagerViewType.PAID_AT -> { /* Do nothing */ }
+            }
+        }
+
+        coroutineScope.launch {
+            val targetPage = (state.currentPage + 1).coerceAtMost(totalPage - 1)
+            state.animateScrollToPage(targetPage)
+        }
+    }
 
     Column(
         modifier = modifier,
@@ -331,74 +387,19 @@ private fun InputPager(
         }
 
         // Pager controls
-        Row(
+        PagerControllerView(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_l)),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        val targetPage = (state.currentPage - 1).coerceAtLeast(0)
-                        state.animateScrollToPage(targetPage)
-                    }
-                },
-                enabled = state.currentPage > 0
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.size_xl))
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
-                        .padding(dimensionResource(R.dimen.spacer_xs)),
-                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
-                    contentDescription = "Left arrow for input pager",
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(50))
-                    .background(MaterialTheme.colorScheme.primary)
-                    .padding(
-                        horizontal = dimensionResource(R.dimen.spacer_m),
-                        vertical = dimensionResource(R.dimen.spacer_xs),
-                    )
-                ,
-                style = MaterialTheme.typography.titleSmall,
-                text = "${state.currentPage + 1}/$totalPage",
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimary,
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        val targetPage = (state.currentPage + 1).coerceAtMost(totalPage - 1)
-                        state.animateScrollToPage(targetPage)
-                    }
-                },
-                enabled = state.currentPage < totalPage - 1
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.size_xl))
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
-                        .padding(dimensionResource(R.dimen.spacer_xs)),
-                    imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                    contentDescription = "Right arrow for input pager",
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                )
-            }
-        }
+            currentPageIndex = state.currentPage,
+            totalPage = totalPage,
+            goToPreviousPage = goToPreviousPage,
+            shouldShowPreviousButton = state.currentPage > 0,
+            goToNextPage = goToNextPage,
+            shouldShowNextButton = state.currentPage < totalPage - 1,
+        )
 
         // Pager
         HorizontalPager(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+            modifier = Modifier.fillMaxWidth(),
             state = state,
             verticalAlignment = Alignment.Top,
             pageSpacing = dimensionResource(R.dimen.spacer_l)
@@ -415,6 +416,11 @@ private fun InputPager(
                         isError = isTitleError,
                         errorText = stringResource(id = R.string.expense_item_title_error),
                         focusRequester = focusRequesterTitle,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onPrevious = { goToPreviousPage.invoke() },
+                            onNext = { goToNextPage.invoke() },
+                        ),
                     )
                 }
                 InputPagerViewType.RECIPIENT.ordinal -> {
@@ -428,6 +434,11 @@ private fun InputPager(
                         isError = isRecipientError,
                         errorText = stringResource(id = R.string.expense_item_recipient_error),
                         focusRequester = focusRequesterRecipient,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onPrevious = { goToPreviousPage.invoke() },
+                            onNext = { goToNextPage.invoke() },
+                        ),
                     )
                 }
                 InputPagerViewType.AMOUNT.ordinal -> {
@@ -440,7 +451,14 @@ private fun InputPager(
                         isError = isAmountError,
                         errorText = stringResource(id = R.string.expense_item_amount_error),
                         focusRequester = focusRequesterAmount,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Decimal,
+                            imeAction = ImeAction.Next,
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onPrevious = { goToPreviousPage.invoke() },
+                            onNext = { goToNextPage.invoke() },
+                        ),
                     )
                 }
                 InputPagerViewType.PAID_AT.ordinal -> {
@@ -465,6 +483,11 @@ private fun InputPager(
                         errorText = stringResource(id = R.string.expense_item_note_error),
                         minLines = 5,
                         focusRequester = focusRequesterNote,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(
+                            onPrevious = { goToPreviousPage.invoke() },
+                            onDone = { hideImeKeyboard.invoke() },
+                        ),
                     )
                 }
             }

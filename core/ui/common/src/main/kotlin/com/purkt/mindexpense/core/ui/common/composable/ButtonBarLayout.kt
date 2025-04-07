@@ -1,4 +1,4 @@
-package com.purkt.mindexpense.features.expense.ui.composable
+package com.purkt.mindexpense.core.ui.common.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -14,6 +16,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
@@ -26,9 +29,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.purkt.mindexpense.core.ui.common.R
+import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 
 @Composable
-internal fun ButtonBarLayout(
+fun ButtonBarLayout(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = contentColorFor(containerColor),
@@ -105,6 +109,20 @@ private fun SaveButton(
                 style = MaterialTheme.typography.titleMedium,
                 text = stringResource(id = R.string.expense_save_label),
                 fontWeight = FontWeight.Bold,
+            )
+        }
+    }
+}
+
+@MindExpensePreview
+@Composable
+private fun PreviewButtonBarLayout() {
+    MindExpenseTheme {
+        Surface {
+            ButtonBarLayout(
+                modifier = Modifier.fillMaxWidth().padding(dimensionResource(R.dimen.spacer_m)),
+                onClickCancelButton = {},
+                onClickSubmitButton = {},
             )
         }
     }
