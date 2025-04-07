@@ -50,6 +50,7 @@ import com.purkt.mindexpense.core.data.common.formatCurrencyOrNull
 import com.purkt.mindexpense.core.data.common.toDateTimeStringOrNull
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.ui.common.R
+import com.purkt.mindexpense.core.ui.common.composable.IconTextButton
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreviewAllScales
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
@@ -58,8 +59,11 @@ import java.time.LocalDateTime
 @Composable
 fun ExpenseItem(
     modifier: Modifier = Modifier,
-    cornerRadius: Dp = dimensionResource(R.dimen.size_l),
-    contentPadding: PaddingValues = PaddingValues(dimensionResource(R.dimen.spacer_l)),
+    cornerRadius: Dp = dimensionResource(R.dimen.size_m),
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = dimensionResource(R.dimen.spacer_m),
+        vertical = dimensionResource(R.dimen.spacer_m),
+    ),
     shouldExpanded: Boolean = false,
     data: Expense,
     isPreviewMode: Boolean = false,
@@ -95,8 +99,11 @@ fun ExpenseItem(
 @Composable
 fun ExpenseItem(
     modifier: Modifier = Modifier,
-    cornerRadius: Dp = dimensionResource(id = R.dimen.size_l),
-    contentPadding: PaddingValues = PaddingValues(dimensionResource(id = R.dimen.spacer_l)),
+    cornerRadius: Dp = dimensionResource(id = R.dimen.size_m),
+    contentPadding: PaddingValues = PaddingValues(
+        horizontal = dimensionResource(R.dimen.spacer_m),
+        vertical = dimensionResource(R.dimen.spacer_m),
+    ),
     isExpanded: Boolean = false,
     onIsExpandedChanged: (Boolean) -> Unit = {},
     title: String,
@@ -352,28 +359,18 @@ private fun DetailSection(
 
         // Delete
         CompositionLocalProvider(LocalContentColor provides MaterialTheme.colorScheme.error) {
-            Row(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .clip(RoundedCornerShape(dimensionResource(R.dimen.size_l)))
-                    .clickable(onClick = onDeleteItem)
-                    .padding(
-                        horizontal = dimensionResource(R.dimen.spacer_l),
-                        vertical = dimensionResource(R.dimen.spacer_s)
-                    ),
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_s)),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete icon",
-                )
-                Text(
-                    style = MaterialTheme.typography.bodyMedium,
-                    text = stringResource(id = R.string.expense_delete),
-                    fontWeight = FontWeight.Bold,
-                )
-            }
+            IconTextButton(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                onClick = onDeleteItem,
+                text = stringResource(id = R.string.expense_delete),
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete icon",
+                    )
+                },
+            )
+
         }
     }
 }
@@ -390,19 +387,6 @@ private fun DescriptionSection(
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacer_s))) {
-        if (isPreviewMode || note.isNotBlank()) {
-            Text(
-                modifier = Modifier.wrapAsError(isError = isNoteError),
-                style = MaterialTheme.typography.bodyMedium,
-                text = if (isPreviewMode) {
-                    note.ifBlank { stringResource(id = R.string.expense_item_note_hint) }
-                } else note,
-                color = LocalContentColor.current.onCondition(
-                    showAsError = isNoteError,
-                    showAsHint = isPreviewMode && note.isBlank(),
-                ),
-            )
-        }
         Text(
             style = MaterialTheme.typography.bodyMedium,
             text = buildAnnotatedString {
@@ -417,6 +401,19 @@ private fun DescriptionSection(
                 append(displayPaidAt)
             },
         )
+        if (isPreviewMode || note.isNotBlank()) {
+            Text(
+                modifier = Modifier.wrapAsError(isError = isNoteError),
+                style = MaterialTheme.typography.bodyMedium,
+                text = if (isPreviewMode) {
+                    note.ifBlank { stringResource(id = R.string.expense_item_note_hint) }
+                } else note,
+                color = LocalContentColor.current.onCondition(
+                    showAsError = isNoteError,
+                    showAsHint = isPreviewMode && note.isBlank(),
+                ),
+            )
+        }
     }
 }
 
