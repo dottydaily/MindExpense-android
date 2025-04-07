@@ -9,6 +9,10 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(group = "Dark", name = "Dark-Thai", locale = "th", uiMode = Configuration.UI_MODE_NIGHT_YES)
 annotation class MindExpensePreview
 
+@Preview(group = "Light", name = "Light-English")
+@Preview(group = "Dark", name = "Dark-English", uiMode = Configuration.UI_MODE_NIGHT_YES)
+annotation class MindExpensePreviewOnlyLightDark
+
 @Preview(group = "Preview-FontScaling", name = "1.) FontScale - 50%", fontScale = 0.5f)
 @Preview(group = "Preview-FontScaling", name = "2.) FontScale - 75%", fontScale = 0.75f)
 @Preview(group = "Preview-FontScaling", name = "3.) FontScale - 100%", fontScale = 1f)

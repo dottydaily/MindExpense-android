@@ -23,4 +23,6 @@
     <string name="expense_date_time_button_label">เลือกวันที่/เวลา</string>
     <string name="expense_discard_label">ยกเลิก</string>
     <string name="expense_save_label">บันทึก</string>
+    <string name="expense_go_back_dialog_title">คุณต้องการที่จะยกเลิกใช่หรือไม่?</string>
+    <string name="expense_submit_success_dialog_title">บันทึกค่าใช้จ่ายสำเร็จ</string>
 </resources>

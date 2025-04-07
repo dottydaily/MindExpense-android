@@ -29,7 +29,6 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -39,6 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.ui.common.R
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
+import com.purkt.mindexpense.core.ui.common.composable.rememberListenerParams
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import com.purkt.mindexpense.core.ui.expense.composable.ExpenseItem
 import com.purkt.mindexpense.features.home.ui.composable.HomeTopBar
@@ -51,7 +51,7 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val expenses by viewModel.expenses.collectAsStateWithLifecycle()
-    val onDeleteExpense: (Expense) -> Unit = remember { { viewModel.deleteExpense(it) } }
+    val onDeleteExpense: (Expense) -> Unit = rememberListenerParams { viewModel.deleteExpense(it) }
 
     BaseHomeScreen(
         expenses = expenses,

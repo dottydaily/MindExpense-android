@@ -27,6 +27,11 @@ internal class ExpenseAddViewModel(
     validateExpenseNoteUseCase = validateExpenseNoteUseCase,
 ) {
     override fun submit() {
+        validateTitle()
+        validateRecipient()
+        validateAmount()
+        validateNote()
+
         if (isTitleError || isRecipientError || isAmountError || isNoteError) return
 
         viewModelScope.launch {
@@ -43,7 +48,7 @@ internal class ExpenseAddViewModel(
                 )
 
                 if (isAdded) {
-                    triggerGoBackUiEvent()
+                    setSubmitSuccessDialog(isShowing = true)
                 }
             } catch (e: Throwable) {
                 AppLogger.e(e)
