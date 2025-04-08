@@ -8,6 +8,7 @@
     <string name="home_fab_label">เพิ่ม</string>
     <string name="expense_recipent_label">ผู้รับ</string>
     <string name="expense_delete">ลบ</string>
+    <string name="expense_confirm_delete_dialog_title">คุณต้องการจะลบสิ่งนี้?</string>
     <string name="expense_paid_at_label">จ่ายเมื่อ</string>
     <string name="expense_add_title">เพิ่มค่าใช้จ่าย</string>
     <string name="expense_edit_title">แก้ไขค่าใช้จ่าย</string>
