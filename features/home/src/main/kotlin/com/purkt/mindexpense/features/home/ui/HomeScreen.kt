@@ -38,9 +38,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.ui.common.R
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
+import com.purkt.mindexpense.core.ui.common.composable.rememberListenerNullableParams
 import com.purkt.mindexpense.core.ui.common.composable.rememberListenerParams
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import com.purkt.mindexpense.core.ui.expense.composable.ExpenseItem
+import com.purkt.mindexpense.features.home.ui.composable.ConfirmDeleteDialog
 import com.purkt.mindexpense.features.home.ui.composable.HomeTopBar
 import com.purkt.mindexpense.features.home.ui.composable.mockExpenses
 import org.koin.androidx.compose.koinViewModel
@@ -51,12 +53,17 @@ internal fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val expenses by viewModel.expenses.collectAsStateWithLifecycle()
+    val setConfirmDeleteDialog: (Expense?) -> Unit = rememberListenerNullableParams {
+        viewModel.setConfirmDeleteDialog(pendingExpense = it)
+    }
     val onDeleteExpense: (Expense) -> Unit = rememberListenerParams { viewModel.deleteExpense(it) }
 
     BaseHomeScreen(
         expenses = expenses,
         shouldShowFabButton = viewModel.currentUserId != null,
         onAddExpense = onOuterGoToExpenseAddScreen,
+        expenseToBeDeleted = viewModel.expenseToDeleted,
+        onSetConfirmDeleteDialog = setConfirmDeleteDialog,
         onDeleteExpense = onDeleteExpense,
     )
 }
@@ -66,8 +73,26 @@ private fun BaseHomeScreen(
     expenses: List<Expense> = emptyList(),
     shouldShowFabButton: Boolean = true,
     onAddExpense: () -> Unit = {},
+    expenseToBeDeleted: Expense? = null,
+    onSetConfirmDeleteDialog: (Expense?) -> Unit = {},
     onDeleteExpense: (Expense) -> Unit = {},
 ) {
+    ConfirmDeleteDialog(
+        isShowing = expenseToBeDeleted != null,
+        message = expenseToBeDeleted?.title.orEmpty(),
+        onDismiss = {
+            expenseToBeDeleted?.let {
+                onSetConfirmDeleteDialog.invoke(null)
+            }
+        },
+        onClickConfirmButton = {
+            expenseToBeDeleted?.let {
+                onDeleteExpense.invoke(it)
+                onSetConfirmDeleteDialog.invoke(null)
+            }
+        }
+    )
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -127,10 +152,12 @@ private fun BaseHomeScreen(
         ) {
             items(items = expenses, key = { it.uniqueId }) { expense ->
                 ExpenseItem(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItem(),
                     contentPadding = PaddingValues(dimensionResource(R.dimen.spacer_l)),
                     data = expense,
-                    onDeleteItem = { onDeleteExpense.invoke(expense) },
+                    onClickDeleteButton = { onSetConfirmDeleteDialog.invoke(expense) },
                 )
             }
         }

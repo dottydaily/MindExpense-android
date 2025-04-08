@@ -71,7 +71,7 @@ fun ExpenseItem(
     headerContentColor: Color = contentColorFor(headerContainerColor),
     detailContainerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     detailContentColor: Color = contentColorFor(detailContainerColor),
-    onDeleteItem: () -> Unit = {},
+    onClickDeleteButton: () -> Unit = {},
 ) {
     var isExpanded: Boolean by rememberSaveable { mutableStateOf(shouldExpanded) }
     LaunchedEffect(key1 = shouldExpanded) { isExpanded = shouldExpanded }
@@ -92,7 +92,7 @@ fun ExpenseItem(
         headerContentColor = headerContentColor,
         detailContainerColor = detailContainerColor,
         detailContentColor = detailContentColor,
-        onDeleteItem = onDeleteItem,
+        onDeleteItem = onClickDeleteButton,
     )
 }
 

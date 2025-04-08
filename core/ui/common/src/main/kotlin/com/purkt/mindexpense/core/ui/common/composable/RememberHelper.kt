@@ -8,3 +8,6 @@ fun rememberListener(listener: () -> Unit) = remember { listener }
 
 @Composable
 fun<Param: Any, Result: Any> rememberListenerParams(listener: (Param) -> Result) = remember { listener }
+
+@Composable
+fun<Param: Any?, Result: Any?> rememberListenerNullableParams(listener: (Param) -> Result) = remember { listener }

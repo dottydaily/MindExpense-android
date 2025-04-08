@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.purkt.mindexpense.core.android.BaseViewModel
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.data.expense.repository.ExpenseRepository
-import com.purkt.mindexpense.core.domain.expense.usecase.CreateRandomExpenseUseCase
 import com.purkt.mindexpense.core.domain.users.usecase.GetCurrentUserOrCreateNewOneUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -22,10 +21,10 @@ import kotlinx.coroutines.launch
 
 internal class HomeViewModel(
     private val expenseRepository: ExpenseRepository,
-    private val createRandomExpenseUseCase: CreateRandomExpenseUseCase,
     private val getCurrentUserOrCreateNewOneUseCase: GetCurrentUserOrCreateNewOneUseCase,
 ): BaseViewModel() {
     var currentUserId: Int? by mutableStateOf(null); private set
+    var expenseToDeleted: Expense? by mutableStateOf(null); private set
 
     val expenses: StateFlow<List<Expense>> =
         flow { emitAll(getExpensesByCurrentUserOrCreateNewUserIfNeeded()) }
@@ -35,10 +34,8 @@ internal class HomeViewModel(
                 initialValue = emptyList()
             )
 
-    fun createRandomExpense() {
-        viewModelScope.launch {
-            currentUserId?.let { createRandomExpenseUseCase.execute(it) }
-        }
+    fun setConfirmDeleteDialog(pendingExpense: Expense?) {
+        expenseToDeleted = pendingExpense
     }
 
     fun deleteExpense(expense: Expense) {
