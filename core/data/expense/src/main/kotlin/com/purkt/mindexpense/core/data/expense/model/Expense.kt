@@ -1,5 +1,7 @@
 package com.purkt.mindexpense.core.data.expense.model
 
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
 import com.purkt.mindexpense.core.data.common.DATE_FULL_PATTERN
 import com.purkt.mindexpense.core.data.common.TIME_12_HOUR_FORMAT_PATTERN
 import com.purkt.mindexpense.core.data.common.toDateTimeStringOrNull
@@ -20,6 +22,7 @@ import java.time.LocalDateTime
  * @param createdAt The [LocalDateTime] when this expense is created.
  * @param updatedAt The [LocalDateTime] when this expense is updated.
  */
+@Immutable
 data class Expense(
     val localId: Int = DEFAULT_LOCAL_ID,
     val remoteId: Int? = null,
@@ -34,6 +37,7 @@ data class Expense(
     val updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     val uniqueId: String = if (remoteId != null) "R-$remoteId" else "L-$localId"
+    val currentId: Int = remoteId ?: localId
 
     /**
      * Check if this expense has been synced online or not.

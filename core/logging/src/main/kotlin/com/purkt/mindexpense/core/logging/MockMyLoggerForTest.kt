@@ -1,6 +1,5 @@
-package com.purkt.mindexpense.core.testing.logging
+package com.purkt.mindexpense.core.logging
 
-import com.purkt.mindexpense.core.logging.MyLogger
 import org.koin.core.module.Module
 import org.koin.dsl.module
 

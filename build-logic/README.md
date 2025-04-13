@@ -93,40 +93,82 @@ tasks {
 11. Register all of your defined plugin by adding these in the `build.gradle.kts` of `:build-logic:convention` module.
 ```kotlin
 // Register all plugins we defined in the :build-logic:convention module.
-gradlePlugin { 
+gradlePlugin {
     plugins {
-        register("androidApplicationConvention") {
-            id = "convention.android-application"
-            implementationClass = "AndroidApplicationConventionPlugin"
-        }
-        register("applicationComposeConvention") {
-            id = "convention.compose-application"
-            implementationClass = "ApplicationComposeConventionPlugin"
-        }
-        register("applicationFlavorConvention") {
-            id = "convention.flavor-application"
-            implementationClass = "ApplicationFlavorConventionPlugin"
-        }
-        register("androidLibraryConvention") {
-            id = "convention.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
-        register("libraryComposeConvention") {
-            id = "convention.compose-library"
-            implementationClass = "LibraryComposeConventionPlugin"
-        }
-        register("libraryFlavorConvention") {
-            id = "convention.flavor-library"
-            implementationClass = "LibraryFlavorConventionPlugin"
-        }
-        register("featureComposeConvention") {
-            id = "convention.feature-compose"
-            implementationClass = "FeatureComposeConventionPlugin"
-        }
+       // Main plugins for each module types.
+       register("androidApplicationConvention") {
+          id = "convention.main.android-application"
+          implementationClass = "MainAndroidApplicationConventionPlugin"
+       }
+       register("androidLibraryConvention") {
+          id = "convention.main.android-library"
+          implementationClass = "MainAndroidLibraryConventionPlugin"
+       }
+       register("androidFeatureConvention") {
+          id = "convention.main.android-feature"
+          implementationClass = "MainAndroidFeatureConventionPlugin"
+       }
+       register("jvmLibraryConvention") {
+          id = "convention.main.jvm-library"
+          implementationClass = "MainJvmLibraryConventionPlugin"
+       }
+
+       // Plugins for application module.
+       register("applicationComposeConvention") {
+          id = "convention.application.compose-application"
+          implementationClass = "ApplicationComposeConventionPlugin"
+       }
+       register("applicationFlavorConvention") {
+          id = "convention.application.flavor-application"
+          implementationClass = "ApplicationFlavorConventionPlugin"
+       }
+       register("applicationFirebaseConvention") {
+          id = "convention.application.firebase-application"
+          implementationClass = "ApplicationFirebaseConventionPlugin"
+       }
+
+       // Plugins for library module.
+       register("libraryComposeConvention") {
+          id = "convention.library.compose-library"
+          implementationClass = "LibraryComposeConventionPlugin"
+       }
+       register("libraryFlavorConvention") {
+          id = "convention.library.flavor-library"
+          implementationClass = "LibraryFlavorConventionPlugin"
+       }
+
+       // Plugins for Android-related module.
+       register("androidXmlConvention") {
+          id = "convention.android.xml-android"
+          implementationClass = "AndroidXmlConventionPlugin"
+       }
+       register("androidKoinConvention") {
+          id = "convention.android.koin-android"
+          implementationClass = "AndroidKoinConventionPlugin"
+       }
+       register("androidRoomConvention") {
+          id = "convention.android.room-android"
+          implementationClass = "AndroidRoomConventionPlugin"
+       }
+
+       // Plugins for Kotlin-Jvm module.
+       register("jvmComposeConvention") {
+          id = "convention.jvm.compose-compiler"
+          implementationClass = "JvmComposeConventionPlugin"
+       }
+       register("jvmKoinConvention") {
+          id = "convention.jvm.koin-core"
+          implementationClass = "JvmKoinConventionPlugin"
+       }
+       register("jvmRoomConvention") {
+          id = "convention.jvm.room-common"
+          implementationClass = "JvmRoomConventionPlugin"
+       }
+       register("jvmTestConvention") {
+          id = "convention.jvm.test-core"
+          implementationClass = "JvmTestConventionPlugin"
+       }
     }
 }
 ```
 12. Apply your target plugin to your module by adding these codes in `build.gradle.kts` of that module.
-```kotlin
-
-```

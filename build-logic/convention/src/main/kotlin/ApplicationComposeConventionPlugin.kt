@@ -10,8 +10,8 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 /**
- * Plugin for enabling Compose feature for Application module.
- * This plugin tends to be used together with [AndroidApplicationConventionPlugin].
+ * Plugin for enabling Compose feature on Application module.
+ * This plugin tends to be used together with [MainAndroidApplicationConventionPlugin].
  */
 class ApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {

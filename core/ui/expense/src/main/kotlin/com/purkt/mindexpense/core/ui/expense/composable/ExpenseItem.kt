@@ -71,6 +71,7 @@ fun ExpenseItem(
     headerContentColor: Color = contentColorFor(headerContainerColor),
     detailContainerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     detailContentColor: Color = contentColorFor(detailContainerColor),
+    onClickEditButton: () -> Unit = {},
     onClickDeleteButton: () -> Unit = {},
 ) {
     var isExpanded: Boolean by rememberSaveable { mutableStateOf(shouldExpanded) }
@@ -92,7 +93,8 @@ fun ExpenseItem(
         headerContentColor = headerContentColor,
         detailContainerColor = detailContainerColor,
         detailContentColor = detailContentColor,
-        onDeleteItem = onClickDeleteButton,
+        onClickEditButton = onClickEditButton,
+        onClickDeleteButton = onClickDeleteButton,
     )
 }
 
@@ -120,7 +122,8 @@ fun ExpenseItem(
     headerContentColor: Color = contentColorFor(headerContainerColor),
     detailContainerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     detailContentColor: Color = contentColorFor(detailContainerColor),
-    onDeleteItem: () -> Unit = {},
+    onClickEditButton: () -> Unit = {},
+    onClickDeleteButton: () -> Unit = {},
 ) {
     val bottomCornerRadius by animateDpAsState(
         targetValue = if (isExpanded) cornerRadius / 2 else cornerRadius
@@ -181,7 +184,8 @@ fun ExpenseItem(
                         paidAt = paidAt,
                         isPreviewMode =  isPreviewMode,
                         isNoteError = isNoteError,
-                        onDeleteItem = onDeleteItem,
+                        onEditItem = onClickEditButton,
+                        onDeleteItem = onClickDeleteButton,
                     )
                 }
             }
@@ -329,6 +333,7 @@ private fun DetailSection(
     paidAt: LocalDateTime,
     isPreviewMode: Boolean = false,
     isNoteError: Boolean = false,
+    onEditItem: () -> Unit = {},
     onDeleteItem: () -> Unit = {},
 ) {
     Column(
@@ -347,7 +352,7 @@ private fun DetailSection(
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = {  },
+                onClick = onEditItem,
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,

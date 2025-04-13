@@ -24,10 +24,21 @@ fun NavController.navigateToHome(navOptions: NavOptions? = null) {
     navigate(route = HomeRoute, navOptions = navOptions)
 }
 
-fun NavGraphBuilder.homeGraph(onOuterGoToExpenseAddScreen: () -> Unit) {
+fun NavGraphBuilder.homeGraph(
+    onOuterGoToExpenseAddScreen: () -> Unit,
+    onOuterGoToExpenseEditScreen: (id: String, hasBeenSynced: Boolean) -> Unit,
+) {
     navigation<HomeGraphRoute>(startDestination = HomeRoute) {
         composable<HomeRoute>{
-            HomeScreen(onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen)
+            HomeScreen(
+                onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen,
+                onOuterGoToExpenseEditScreen = {
+                    onOuterGoToExpenseEditScreen.invoke(
+                        it.currentId.toString(),
+                        it.hasBeenSyncedAtLeastOnce()
+                    )
+                },
+            )
         }
     }
 }

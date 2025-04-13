@@ -53,65 +53,78 @@ tasks {
 // Register all plugins we defined in the :build-logic:convention module.
 gradlePlugin {
     plugins {
+        // Main plugins for each module types.
         register("androidApplicationConvention") {
-            id = "convention.android-application"
-            implementationClass = "AndroidApplicationConventionPlugin"
+            id = "convention.main.android-application"
+            implementationClass = "MainAndroidApplicationConventionPlugin"
         }
-        register("XmlConvention") {
-            id = "convention.xml"
-            implementationClass = "XmlConventionPlugin"
+        register("androidLibraryConvention") {
+            id = "convention.main.android-library"
+            implementationClass = "MainAndroidLibraryConventionPlugin"
         }
+        register("androidFeatureConvention") {
+            id = "convention.main.android-feature"
+            implementationClass = "MainAndroidFeatureConventionPlugin"
+        }
+        register("jvmLibraryConvention") {
+            id = "convention.main.jvm-library"
+            implementationClass = "MainJvmLibraryConventionPlugin"
+        }
+
+        // Plugins for application module.
         register("applicationComposeConvention") {
-            id = "convention.compose-application"
+            id = "convention.application.compose-application"
             implementationClass = "ApplicationComposeConventionPlugin"
         }
         register("applicationFlavorConvention") {
-            id = "convention.flavor-application"
+            id = "convention.application.flavor-application"
             implementationClass = "ApplicationFlavorConventionPlugin"
         }
-        register("androidLibraryConvention") {
-            id = "convention.library-android"
-            implementationClass = "AndroidLibraryConventionPlugin"
+        register("applicationFirebaseConvention") {
+            id = "convention.application.firebase-application"
+            implementationClass = "ApplicationFirebaseConventionPlugin"
         }
-        register("jvmLibraryConvention") {
-            id = "convention.library-jvm"
-            implementationClass = "JvmLibraryConventionPlugin"
-        }
+
+        // Plugins for library module.
         register("libraryComposeConvention") {
-            id = "convention.compose-library"
+            id = "convention.library.compose-library"
             implementationClass = "LibraryComposeConventionPlugin"
         }
         register("libraryFlavorConvention") {
-            id = "convention.flavor-library"
+            id = "convention.library.flavor-library"
             implementationClass = "LibraryFlavorConventionPlugin"
         }
-        register("featureConvention") {
-            id = "convention.feature"
-            implementationClass = "FeatureConventionPlugin"
+
+        // Plugins for Android-related module.
+        register("androidXmlConvention") {
+            id = "convention.android.xml-android"
+            implementationClass = "AndroidXmlConventionPlugin"
         }
-        register("koinCoreConvention") {
-            id = "convention.koin-core"
-            implementationClass = "KoinCoreConventionPlugin"
+        register("androidKoinConvention") {
+            id = "convention.android.koin-android"
+            implementationClass = "AndroidKoinConventionPlugin"
         }
-        register("koinAndroidConvention") {
-            id = "convention.koin-android"
-            implementationClass = "KoinAndroidConventionPlugin"
+        register("androidRoomConvention") {
+            id = "convention.android.room-android"
+            implementationClass = "AndroidRoomConventionPlugin"
         }
-        register("roomAndroidConvention") {
-            id = "convention.room-android"
-            implementationClass = "RoomAndroidConventionPlugin"
+
+        // Plugins for Kotlin-Jvm module.
+        register("jvmComposeConvention") {
+            id = "convention.jvm.compose-compiler"
+            implementationClass = "JvmComposeConventionPlugin"
         }
-        register("roomConvention") {
-            id = "convention.room-common"
-            implementationClass = "RoomJvmConventionPlugin"
+        register("jvmKoinConvention") {
+            id = "convention.jvm.koin-core"
+            implementationClass = "JvmKoinConventionPlugin"
         }
-        register("testConvention") {
-            id = "convention.test-core"
+        register("jvmRoomConvention") {
+            id = "convention.jvm.room-common"
+            implementationClass = "JvmRoomConventionPlugin"
+        }
+        register("jvmTestConvention") {
+            id = "convention.jvm.test-core"
             implementationClass = "JvmTestConventionPlugin"
-        }
-        register("firebaseApplicationConvention") {
-            id = "convention.firebase"
-            implementationClass = "FirebaseApplicationConventionPlugin"
         }
     }
 }

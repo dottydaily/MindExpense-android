@@ -8,7 +8,11 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
-class RoomJvmConventionPlugin: Plugin<Project> {
+/**
+ * Plugin for applying Room feature on Kotlin-JVM module.
+ * This plugin tends to be used together with [MainJvmLibraryConventionPlugin].
+ */
+class JvmRoomConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

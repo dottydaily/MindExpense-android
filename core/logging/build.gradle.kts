@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.convention.libraryJvm)
-    alias(libs.plugins.convention.koinCore)
-    alias(libs.plugins.convention.testCore)
+    alias(libs.plugins.convention.main.jvmLibrary)
+    alias(libs.plugins.convention.jvm.koin)
+    alias(libs.plugins.convention.jvm.testCore)
 }
 
 dependencies {

@@ -1,5 +1,6 @@
 package com.purkt.mindexpense.core.data.users.model
 
+import androidx.compose.runtime.Immutable
 import java.time.LocalDateTime
 
 /**
@@ -14,6 +15,7 @@ import java.time.LocalDateTime
  * @param updatedAt The [LocalDateTime] when this user is updated.
  * @param isUsing Whether this user is currently using the app.
  */
+@Immutable
 data class User(
     val localId: Int = DEFAULT_LOCAL_ID,
     val remoteId: Int? = null,

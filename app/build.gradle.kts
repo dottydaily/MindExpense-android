@@ -2,12 +2,12 @@ import com.purkt.convention.plugin.AndroidBuildConfig
 import com.purkt.convention.plugin.DefinedBuildType
 
 plugins {
-    alias(libs.plugins.convention.androidApplication)
-    alias(libs.plugins.convention.xml)
-    alias(libs.plugins.convention.composeApplication)
-    alias(libs.plugins.convention.koinAndroid)
-    alias(libs.plugins.convention.flavorApplication)
-    alias(libs.plugins.convention.firebaseApplication)
+    alias(libs.plugins.convention.main.androidApplication)
+    alias(libs.plugins.convention.android.xml)
+    alias(libs.plugins.convention.application.compose)
+    alias(libs.plugins.convention.android.koin)
+    alias(libs.plugins.convention.application.flavor)
+    alias(libs.plugins.convention.application.firebase)
 }
 
 android {

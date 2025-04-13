@@ -7,14 +7,17 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-class FeatureConventionPlugin: Plugin<Project> {
+/**
+ * Plugin for setting up an Android feature module.
+ */
+class MainAndroidFeatureConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.findPlugin("convention-libraryAndroid"))
-                apply(libs.findPlugin("convention-xml"))
-                apply(libs.findPlugin("convention-composeLibrary"))
-                apply(libs.findPlugin("convention-flavorLibrary"))
+                apply(libs.findPlugin("convention.main.androidLibrary"))
+                apply(libs.findPlugin("convention.android.xml"))
+                apply(libs.findPlugin("convention.library.compose"))
+                apply(libs.findPlugin("convention-library.flavor"))
                 apply(libs.findPlugin("kotlin-serialization"))
             }
 

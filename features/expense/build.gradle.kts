@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.convention.feature)
-    alias(libs.plugins.convention.koinAndroid)
+    alias(libs.plugins.convention.main.androidFeature)
+    alias(libs.plugins.convention.android.koin)
 }
 
 android {
