@@ -26,7 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -74,8 +73,9 @@ fun ExpenseItem(
     onClickEditButton: () -> Unit = {},
     onClickDeleteButton: () -> Unit = {},
 ) {
-    var isExpanded: Boolean by rememberSaveable { mutableStateOf(shouldExpanded) }
-    LaunchedEffect(key1 = shouldExpanded) { isExpanded = shouldExpanded }
+    var isExpanded: Boolean by rememberSaveable(key = shouldExpanded.toString()) {
+        mutableStateOf(shouldExpanded)
+    }
 
     ExpenseItem(
         modifier = modifier,
