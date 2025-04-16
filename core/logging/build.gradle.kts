@@ -5,5 +5,6 @@ plugins {
 }
 
 dependencies {
+    implementation(libs.mockk) // For creating helper classes for testing purpose
     testImplementation(projects.core.testing)
 }

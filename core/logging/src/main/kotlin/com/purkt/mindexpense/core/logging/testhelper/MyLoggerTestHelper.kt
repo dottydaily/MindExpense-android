@@ -1,7 +1,27 @@
-package com.purkt.mindexpense.core.logging
+package com.purkt.mindexpense.core.logging.testhelper
 
+import com.purkt.mindexpense.core.logging.AppLogger
+import com.purkt.mindexpense.core.logging.MyLogger
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkObject
+import io.mockk.runs
+import io.mockk.unmockkObject
 import org.koin.core.module.Module
 import org.koin.dsl.module
+
+fun setUpMockAppLogger() {
+    mockkObject(AppLogger)
+    every { AppLogger.i(message = any()) } just runs
+    every { AppLogger.d(message = any()) } just runs
+    every { AppLogger.v(message = any()) } just runs
+    every { AppLogger.w(message = any()) } just runs
+    every { AppLogger.e(message = any()) } just runs
+}
+
+fun tearDownMockAppLogger() {
+    unmockkObject(AppLogger)
+}
 
 fun Module.includedMockMyLogger() {
     includes(mockMyLoggerModule)
