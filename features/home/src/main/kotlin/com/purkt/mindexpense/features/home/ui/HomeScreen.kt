@@ -38,8 +38,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.purkt.mindexpense.core.data.expense.model.Expense
 import com.purkt.mindexpense.core.ui.common.R
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
-import com.purkt.mindexpense.core.ui.common.composable.rememberListenerNullableParams
-import com.purkt.mindexpense.core.ui.common.composable.rememberListenerParams
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import com.purkt.mindexpense.core.ui.expense.composable.ExpenseItem
 import com.purkt.mindexpense.features.home.ui.composable.ConfirmDeleteDialog
@@ -50,21 +48,18 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun HomeScreen(
     onOuterGoToExpenseAddScreen: () -> Unit,
+    onOuterGoToExpenseEditScreen: (Expense) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val expenses by viewModel.expenses.collectAsStateWithLifecycle()
-    val setConfirmDeleteDialog: (Expense?) -> Unit = rememberListenerNullableParams {
-        viewModel.setConfirmDeleteDialog(pendingExpense = it)
-    }
-    val onDeleteExpense: (Expense) -> Unit = rememberListenerParams { viewModel.deleteExpense(it) }
-
     BaseHomeScreen(
         expenses = expenses,
         shouldShowFabButton = viewModel.currentUserId != null,
-        onAddExpense = onOuterGoToExpenseAddScreen,
+        onClickAddExpenseButton = onOuterGoToExpenseAddScreen,
+        onClickEditExpenseItem = onOuterGoToExpenseEditScreen,
         expenseToBeDeleted = viewModel.expenseToDeleted,
-        onSetConfirmDeleteDialog = setConfirmDeleteDialog,
-        onDeleteExpense = onDeleteExpense,
+        onSetConfirmDeleteDialog = viewModel::setConfirmDeleteDialog,
+        onClickDeleteExpenseItem = viewModel::deleteExpense,
     )
 }
 
@@ -72,10 +67,11 @@ internal fun HomeScreen(
 private fun BaseHomeScreen(
     expenses: List<Expense> = emptyList(),
     shouldShowFabButton: Boolean = true,
-    onAddExpense: () -> Unit = {},
+    onClickAddExpenseButton: () -> Unit = {},
+    onClickEditExpenseItem: (target: Expense) -> Unit = {},
     expenseToBeDeleted: Expense? = null,
     onSetConfirmDeleteDialog: (Expense?) -> Unit = {},
-    onDeleteExpense: (Expense) -> Unit = {},
+    onClickDeleteExpenseItem: (Expense) -> Unit = {},
 ) {
     ConfirmDeleteDialog(
         isShowing = expenseToBeDeleted != null,
@@ -87,7 +83,7 @@ private fun BaseHomeScreen(
         },
         onClickConfirmButton = {
             expenseToBeDeleted?.let {
-                onDeleteExpense.invoke(it)
+                onClickDeleteExpenseItem.invoke(it)
                 onSetConfirmDeleteDialog.invoke(null)
             }
         }
@@ -119,7 +115,7 @@ private fun BaseHomeScreen(
         floatingActionButton = {
             if (shouldShowFabButton) {
                 FloatingActionButton(
-                    onClick = onAddExpense,
+                    onClick = onClickAddExpenseButton,
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 ) {
                     Row(
@@ -157,6 +153,7 @@ private fun BaseHomeScreen(
                         .animateItem(),
                     contentPadding = PaddingValues(dimensionResource(R.dimen.spacer_l)),
                     data = expense,
+                    onClickEditButton = { onClickEditExpenseItem.invoke(expense) },
                     onClickDeleteButton = { onSetConfirmDeleteDialog.invoke(expense) },
                 )
             }

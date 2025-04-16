@@ -1,8 +1,8 @@
 plugins {
-    alias(libs.plugins.convention.libraryAndroid)
-    alias(libs.plugins.convention.koinAndroid)
-    alias(libs.plugins.convention.roomAndroid)
-    alias(libs.plugins.convention.flavorLibrary)
+    alias(libs.plugins.convention.main.androidLibrary)
+    alias(libs.plugins.convention.android.koin)
+    alias(libs.plugins.convention.android.room)
+    alias(libs.plugins.convention.library.flavor)
 }
 
 android {

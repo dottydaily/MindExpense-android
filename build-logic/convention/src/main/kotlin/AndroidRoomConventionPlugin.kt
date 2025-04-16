@@ -9,7 +9,10 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
-class RoomAndroidConventionPlugin: Plugin<Project> {
+/**
+ * Plugin for applying Room database on Android-related module.
+ */
+class AndroidRoomConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

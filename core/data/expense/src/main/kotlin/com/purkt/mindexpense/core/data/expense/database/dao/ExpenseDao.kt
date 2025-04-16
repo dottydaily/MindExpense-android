@@ -13,6 +13,12 @@ interface ExpenseDao {
     @Query("SELECT * FROM expense WHERE owner_user_id = :userId")
     fun getExpensesByUserId(userId: Int): Flow<List<ExpenseEntity>>
 
+    @Query("SELECT * FROM expense WHERE owner_user_id = :userId AND remote_id = :expenseId")
+    suspend fun getExpensesByRemoteId(userId: Int, expenseId: String): ExpenseEntity?
+
+    @Query("SELECT * FROM expense WHERE owner_user_id = :userId AND local_id = :expenseId")
+    suspend fun getExpensesByLocalId(userId: Int, expenseId: String): ExpenseEntity?
+
     @Insert
     fun createExpense(expense: ExpenseEntity): Long
 

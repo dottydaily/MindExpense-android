@@ -1,15 +1,14 @@
-package com.purkt.mindexpense.features.expense.ui.add
+package com.purkt.mindexpense.features.expense.ui.edit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.purkt.mindexpense.features.expense.ui.composable.BaseExpenseScreen
 import com.purkt.mindexpense.features.expense.ui.composable.ExpenseScreenType
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun ExpenseAddScreen(
+internal fun ExpenseEditScreen(
     onGoBackToPreviousPage: () -> Unit,
-    viewModel: ExpenseAddViewModel = koinViewModel(),
+    viewModel: ExpenseEditViewModel,
 ) {
     LaunchedEffect(key1 = viewModel.goBackUiEvent) {
         if (viewModel.goBackUiEvent.consume() == true) {
@@ -18,7 +17,7 @@ internal fun ExpenseAddScreen(
     }
 
     BaseExpenseScreen(
-        mode = ExpenseScreenType.ADD,
+        mode = ExpenseScreenType.EDIT,
         isLoading = viewModel.isLoading,
         title = viewModel.title,
         onTitleChanged = viewModel::updateTitle,

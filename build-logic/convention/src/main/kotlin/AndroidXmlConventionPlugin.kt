@@ -5,10 +5,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 /**
- * Plugin for enabling necessary components of Traditional XML view for Application module.
- * This plugin tends to be used together with [AndroidApplicationConventionPlugin].
+ * Plugin for enabling necessary components of Traditional XML view on Android-related module.
  */
-class XmlConventionPlugin : Plugin<Project> {
+class AndroidXmlConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             dependencies {

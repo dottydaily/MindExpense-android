@@ -24,6 +24,18 @@ internal class LocalExpenseRepositoryImpl(private val dao: ExpenseDao): ExpenseR
         }
     }
 
+    override suspend fun getExpenseById(userId: Int, expenseId: String, isRemoteId: Boolean): Expense? {
+        return suspendTryOrDefault(default = null) {
+            withContext(Dispatchers.IO) {
+                if (isRemoteId) {
+                    dao.getExpensesByRemoteId(userId = userId, expenseId = expenseId)
+                } else {
+                    dao.getExpensesByLocalId(userId = userId, expenseId = expenseId)
+                }
+            }?.mapToModelOrThrowError()
+        }
+    }
+
     override suspend fun createExpense(expense: Expense): Boolean {
         return suspendTryOrDefault(default = false) {
             val entity = expense.mapToEntityOrThrowError()

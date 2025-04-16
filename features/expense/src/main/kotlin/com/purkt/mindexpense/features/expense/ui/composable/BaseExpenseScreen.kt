@@ -45,10 +45,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.purkt.mindexpense.core.ui.common.R
 import com.purkt.mindexpense.core.ui.common.composable.ButtonBarLayout
 import com.purkt.mindexpense.core.ui.common.composable.InputField
+import com.purkt.mindexpense.core.ui.common.composable.LoadingDialog
 import com.purkt.mindexpense.core.ui.common.composable.MindExpensePreview
 import com.purkt.mindexpense.core.ui.common.composable.PagerControllerView
 import com.purkt.mindexpense.core.ui.common.composable.drawVerticalScrollBar
-import com.purkt.mindexpense.core.ui.common.composable.rememberListener
 import com.purkt.mindexpense.core.ui.common.theme.MindExpenseTheme
 import com.purkt.mindexpense.core.ui.expense.composable.ExpenseItem
 import kotlinx.coroutines.launch
@@ -62,6 +62,7 @@ internal enum class ExpenseScreenType {
 @Composable
 internal fun BaseExpenseScreen(
     mode: ExpenseScreenType = ExpenseScreenType.ADD,
+    isLoading: Boolean = false,
     title: String = "",
     onTitleChanged: (String) -> Unit = {},
     onValidateTitle: (String) -> Unit = {},
@@ -93,6 +94,8 @@ internal fun BaseExpenseScreen(
     onGoBack: () -> Unit = {},
 ) {
     BackHandler { onGoBackOrOpenConfirmDialog.invoke() }
+
+    LoadingDialog(isShowing = isLoading)
 
     ConfirmGoBackDialog(
         isShowing = isShowingGoBackConfirmDialog,
@@ -329,13 +332,13 @@ private fun InputPager(
     val state = rememberPagerState { totalPage }
     var currentViewType by rememberSaveable { mutableStateOf(viewTypesInOrder.first()) }
 
-    val goToPreviousPage: () -> Unit = rememberListener {
+    val goToPreviousPage: () -> Unit = {
         coroutineScope.launch {
             val targetPage = (state.currentPage - 1).coerceAtLeast(0)
             state.animateScrollToPage(targetPage)
         }
     }
-    val goToNextPage: () -> Unit = rememberListener {
+    val goToNextPage: () -> Unit = {
         // Validate input value of the current page before go to next page.
         viewTypesInOrder.getOrNull(state.currentPage)?.let { currentViewType ->
             when (currentViewType) {
@@ -542,6 +545,40 @@ private fun PreviewBaseExpenseScreenEdit() {
 
         BaseExpenseScreen(
             mode = ExpenseScreenType.EDIT,
+            title = title,
+            onTitleChanged = { title = it },
+            isTitleError = title.length > maxTitleLength,
+            maxTitleLength = maxTitleLength,
+            recipient = recipient,
+            onRecipientChanged = { recipient = it },
+            isRecipientError = recipient.length > maxRecipientLength,
+            maxRecipientLength = maxRecipientLength,
+            amount = amount,
+            onAmountChanged = { amount = it.toDoubleOrNull() ?: 0.0 },
+            isAmountError = amount > 999999999.99,
+            note = note,
+            onNoteChanged = { note = it },
+            isNoteError = note.length > maxNoteLength,
+            maxNoteLength = maxNoteLength,
+        )
+    }
+}
+
+@MindExpensePreview
+@Composable
+private fun PreviewBaseExpenseScreenEditLoading() {
+    MindExpenseTheme {
+        var title by rememberSaveable { mutableStateOf("") }
+        val maxTitleLength = 30
+        var recipient by rememberSaveable { mutableStateOf("") }
+        val maxRecipientLength = 20
+        var amount by rememberSaveable { mutableDoubleStateOf(0.0) }
+        var note by rememberSaveable { mutableStateOf("") }
+        val maxNoteLength = 200
+
+        BaseExpenseScreen(
+            mode = ExpenseScreenType.EDIT,
+            isLoading = true,
             title = title,
             onTitleChanged = { title = it },
             isTitleError = title.length > maxTitleLength,

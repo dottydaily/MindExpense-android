@@ -5,6 +5,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
+/**
+ * Plugin for enabling testing feature on any module.
+ */
 class JvmTestConventionPlugin: Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {

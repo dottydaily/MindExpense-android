@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.convention.libraryAndroid)
-    alias(libs.plugins.convention.koinAndroid)
-    alias(libs.plugins.convention.testCore)
+    alias(libs.plugins.convention.main.androidLibrary)
+    alias(libs.plugins.convention.android.koin)
+    alias(libs.plugins.convention.jvm.testCore)
 }
 
 android {

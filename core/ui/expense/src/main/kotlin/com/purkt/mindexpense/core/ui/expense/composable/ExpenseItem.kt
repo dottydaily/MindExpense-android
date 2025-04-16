@@ -26,7 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -71,10 +70,12 @@ fun ExpenseItem(
     headerContentColor: Color = contentColorFor(headerContainerColor),
     detailContainerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     detailContentColor: Color = contentColorFor(detailContainerColor),
+    onClickEditButton: () -> Unit = {},
     onClickDeleteButton: () -> Unit = {},
 ) {
-    var isExpanded: Boolean by rememberSaveable { mutableStateOf(shouldExpanded) }
-    LaunchedEffect(key1 = shouldExpanded) { isExpanded = shouldExpanded }
+    var isExpanded: Boolean by rememberSaveable(key = shouldExpanded.toString()) {
+        mutableStateOf(shouldExpanded)
+    }
 
     ExpenseItem(
         modifier = modifier,
@@ -92,7 +93,8 @@ fun ExpenseItem(
         headerContentColor = headerContentColor,
         detailContainerColor = detailContainerColor,
         detailContentColor = detailContentColor,
-        onDeleteItem = onClickDeleteButton,
+        onClickEditButton = onClickEditButton,
+        onClickDeleteButton = onClickDeleteButton,
     )
 }
 
@@ -120,7 +122,8 @@ fun ExpenseItem(
     headerContentColor: Color = contentColorFor(headerContainerColor),
     detailContainerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     detailContentColor: Color = contentColorFor(detailContainerColor),
-    onDeleteItem: () -> Unit = {},
+    onClickEditButton: () -> Unit = {},
+    onClickDeleteButton: () -> Unit = {},
 ) {
     val bottomCornerRadius by animateDpAsState(
         targetValue = if (isExpanded) cornerRadius / 2 else cornerRadius
@@ -181,7 +184,8 @@ fun ExpenseItem(
                         paidAt = paidAt,
                         isPreviewMode =  isPreviewMode,
                         isNoteError = isNoteError,
-                        onDeleteItem = onDeleteItem,
+                        onEditItem = onClickEditButton,
+                        onDeleteItem = onClickDeleteButton,
                     )
                 }
             }
@@ -329,6 +333,7 @@ private fun DetailSection(
     paidAt: LocalDateTime,
     isPreviewMode: Boolean = false,
     isNoteError: Boolean = false,
+    onEditItem: () -> Unit = {},
     onDeleteItem: () -> Unit = {},
 ) {
     Column(
@@ -347,7 +352,7 @@ private fun DetailSection(
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = {  },
+                onClick = onEditItem,
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,

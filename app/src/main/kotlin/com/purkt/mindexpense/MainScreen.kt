@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.purkt.mindexpense.features.expense.navigation.expenseGraph
 import com.purkt.mindexpense.features.expense.navigation.navigateToExpenseAddScreen
+import com.purkt.mindexpense.features.expense.navigation.navigateToExpenseEditScreen
 import com.purkt.mindexpense.navigation.MainGraphRoute
 import com.purkt.mindexpense.navigation.mainGraph
 
@@ -45,7 +46,12 @@ internal fun MainScreen() {
             )
         },
     ) {
-        mainGraph(onOuterGoToExpenseAddScreen = { navController.navigateToExpenseAddScreen()})
+        mainGraph(
+            onOuterGoToExpenseAddScreen = { navController.navigateToExpenseAddScreen() },
+            onOuterGoToExpenseEditScreen = { id: String, hasBeenSynced: Boolean ->
+                navController.navigateToExpenseEditScreen(expenseId = id, hasBeenSynced = hasBeenSynced)
+            },
+        )
         expenseGraph(onGoBackToPreviousPage = { navController.popBackStack() })
     }
 }

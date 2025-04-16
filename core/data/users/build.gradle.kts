@@ -1,7 +1,8 @@
 plugins {
-    alias(libs.plugins.convention.libraryJvm)
-    alias(libs.plugins.convention.koinCore)
-    alias(libs.plugins.convention.roomCommonNonAndroid)
+    alias(libs.plugins.convention.main.jvmLibrary)
+    alias(libs.plugins.convention.jvm.composeCompiler)
+    alias(libs.plugins.convention.jvm.koin)
+    alias(libs.plugins.convention.jvm.room)
 }
 
 dependencies {

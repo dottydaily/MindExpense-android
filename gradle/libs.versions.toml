@@ -46,6 +46,7 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-espressoCore = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 # Being used indirectly by convention plugin
 platform-composeBom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-uiGraphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -107,18 +108,19 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 
 # All defined convention plugin in :build-logic:convention module.
-convention-androidApplication = { id = "convention.android-application", version = "unspecified" }
-convention-xml = { id = "convention.xml", version = "unspecified" }
-convention-composeApplication = { id = "convention.compose-application", version = "unspecified" }
-convention-flavorApplication = { id = "convention.flavor-application", version = "unspecified" }
-convention-libraryAndroid = { id = "convention.library-android", version = "unspecified" }
-convention-libraryJvm = { id = "convention.library-jvm", version = "unspecified" }
-convention-composeLibrary = { id = "convention.compose-library", version = "unspecified" }
-convention-flavorLibrary = { id = "convention.flavor-library", version = "unspecified" }
-convention-feature = { id = "convention.feature", version = "unspecified" }
-convention-koinCore = { id = "convention.koin-core", version = "unspecified" }
-convention-koinAndroid = { id = "convention.koin-android", version = "unspecified" }
-convention-roomAndroid = { id = "convention.room-android", version = "unspecified" }
-convention-roomCommonNonAndroid = { id = "convention.room-common", version = "unspecified" }
-convention-testCore = { id = "convention.test-core", version = "unspecified" }
-convention-firebaseApplication = { id = "convention.firebase", version = "unspecified" }
+convention-main-androidApplication = { id = "convention.main.android-application", version = "unspecified" }
+convention-main-androidLibrary = { id = "convention.main.android-library", version = "unspecified" }
+convention-main-androidFeature = { id = "convention.main.android-feature", version = "unspecified" }
+convention-main-jvmLibrary = { id = "convention.main.jvm-library", version = "unspecified" }
+convention-application-compose = { id = "convention.application.compose-application", version = "unspecified" }
+convention-application-flavor = { id = "convention.application.flavor-application", version = "unspecified" }
+convention-application-firebase = { id = "convention.application.firebase-application", version = "unspecified" }
+convention-library-compose = { id = "convention.library.compose-library", version = "unspecified" }
+convention-library-flavor = { id = "convention.library.flavor-library", version = "unspecified" }
+convention-android-xml = { id = "convention.android.xml-android", version = "unspecified" }
+convention-android-koin = { id = "convention.android.koin-android", version = "unspecified" }
+convention-android-room = { id = "convention.android.room-android", version = "unspecified" }
+convention-jvm-composeCompiler = { id = "convention.jvm.compose-compiler", version = "unspecified" }
+convention-jvm-koin = { id = "convention.jvm.koin-core", version = "unspecified" }
+convention-jvm-room = { id = "convention.jvm.room-common", version = "unspecified" }
+convention-jvm-testCore = { id = "convention.jvm.test-core", version = "unspecified" }

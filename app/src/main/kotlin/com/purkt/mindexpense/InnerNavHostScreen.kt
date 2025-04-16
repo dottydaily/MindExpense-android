@@ -45,7 +45,10 @@ import com.purkt.mindexpense.features.profile.navigation.ProfileGraphRoute
 import com.purkt.mindexpense.features.profile.navigation.profileGraph
 
 @Composable
-internal fun InnerNavHostScreen(onOuterGoToExpenseAddScreen: () -> Unit) {
+internal fun InnerNavHostScreen(
+    onOuterGoToExpenseAddScreen: () -> Unit,
+    onOuterGoToExpenseEditScreen: (id: String, hasBeenSynced: Boolean) -> Unit,
+) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -87,7 +90,10 @@ internal fun InnerNavHostScreen(onOuterGoToExpenseAddScreen: () -> Unit) {
             popEnterTransition = { EnterTransition.None },
             popExitTransition = { ExitTransition.None },
         ) {
-            homeGraph(onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen)
+            homeGraph(
+                onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen,
+                onOuterGoToExpenseEditScreen = onOuterGoToExpenseEditScreen,
+            )
             profileGraph()
         }
     }

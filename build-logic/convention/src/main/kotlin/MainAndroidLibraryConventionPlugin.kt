@@ -7,9 +7,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 /**
- * Plugin for setting up an Library module.
+ * Plugin for setting up an Android library module.
  */
-class AndroidLibraryConventionPlugin : Plugin<Project> {
+class MainAndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

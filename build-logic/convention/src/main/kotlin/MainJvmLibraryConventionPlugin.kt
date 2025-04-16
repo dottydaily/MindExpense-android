@@ -7,9 +7,9 @@ import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
 
 /**
- * Plugin for setting up an Library module.
+ * Plugin for setting up an Kotlin-JVM library module.
  */
-class JvmLibraryConventionPlugin : Plugin<Project> {
+class MainJvmLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {

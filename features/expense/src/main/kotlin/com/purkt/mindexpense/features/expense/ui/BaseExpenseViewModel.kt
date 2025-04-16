@@ -19,45 +19,34 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 internal abstract class BaseExpenseViewModel(
-    private val getCurrentUserOrCreateNewOneUseCase: GetCurrentUserOrCreateNewOneUseCase,
     private val validateExpenseTitleUseCase: ValidateExpenseTitleUseCase,
     private val validateExpenseRecipientUseCase: ValidateExpenseRecipientUseCase,
     private val validateExpenseAmountUseCase: ValidateExpenseAmountUseCase,
     private val validateExpenseNoteUseCase: ValidateExpenseNoteUseCase,
 ): BaseViewModel() {
-    private val initialTitle = ""
-    private val initialRecipient = ""
-    private val initialAmount = 0.0
-    private val initialDisplayAmount = ""
-    private val initialPaidAt = LocalDateTime.now()
-    private val initialNote = ""
+    protected var initialTitle = ""
+    protected var initialRecipient = ""
+    protected var initialAmount = 0.0
+    protected var initialDisplayAmount = ""
+    protected var initialPaidAt = LocalDateTime.now()
+    protected var initialNote = ""
 
-    protected var currentUserId: Int? = null
-
-    var title by mutableStateOf(initialTitle); private set
+    var title by mutableStateOf(initialTitle); protected set
     var isTitleError by mutableStateOf(false); private set
     var maxTitleLength: Int? by mutableStateOf(validateExpenseTitleUseCase.maxLength); private set
-    var recipient by mutableStateOf(initialRecipient); private set
+    var recipient by mutableStateOf(initialRecipient); protected set
     var isRecipientError by mutableStateOf(false); private set
     var maxRecipientLength: Int? by mutableStateOf(validateExpenseRecipientUseCase.maxLength); private set
-    var amount by mutableDoubleStateOf(initialAmount); private set
-    var displayAmount by mutableStateOf(initialDisplayAmount); private set
+    var amount by mutableDoubleStateOf(initialAmount); protected set
+    var displayAmount by mutableStateOf(initialDisplayAmount); protected set
     var isAmountError by mutableStateOf(false); private set
-    var paidAt: LocalDateTime by mutableStateOf(initialPaidAt); private set
-    var note by mutableStateOf(initialNote); private set
+    var paidAt: LocalDateTime by mutableStateOf(initialPaidAt); protected set
+    var note by mutableStateOf(initialNote); protected set
     var isNoteError by mutableStateOf(false); private set
     var maxNoteLength: Int? by mutableStateOf(validateExpenseNoteUseCase.maxLength); private set
     var isShowingGoBackConfirmDialog by mutableStateOf(false); private set
     var isShowingSubmitSuccessDialog by mutableStateOf(false); private set
     var goBackUiEvent: UiEvent<Boolean> by mutableStateOf(UiEvent(false)); private set
-
-    init {
-        viewModelScope.launch {
-            currentUserId = withContext(coroutineContext) {
-                getCurrentUserOrCreateNewOneUseCase.execute().firstOrNull()?.currentId
-            }
-        }
-    }
 
     abstract fun submit()
 

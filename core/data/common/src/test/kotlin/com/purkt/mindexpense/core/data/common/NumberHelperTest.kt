@@ -1,7 +1,7 @@
 package com.purkt.mindexpense.core.data.common
 
+import com.purkt.mindexpense.core.logging.testhelper.includedMockMyLogger
 import com.purkt.mindexpense.core.testing.base.BaseTest
-import com.purkt.mindexpense.core.testing.logging.includedMockMyLogger
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test

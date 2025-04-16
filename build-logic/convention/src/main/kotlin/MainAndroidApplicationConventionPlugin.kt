@@ -1,6 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.purkt.convention.plugin.apply
-import com.purkt.convention.plugin.configureFlavors
 import com.purkt.convention.plugin.configureKotlinAndroid
 import com.purkt.convention.plugin.libs
 import org.gradle.api.Plugin
@@ -8,9 +7,9 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
 /**
- * Plugin for setting up an Android Application module.
+ * Plugin for setting up an Android application module.
  */
-class AndroidApplicationConventionPlugin : Plugin<Project> {
+class MainAndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
             with(pluginManager) {

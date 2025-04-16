@@ -12,10 +12,16 @@ internal data object MainRoute
 @Serializable
 internal data object MainGraphRoute
 
-fun NavGraphBuilder.mainGraph(onOuterGoToExpenseAddScreen: () -> Unit) {
+fun NavGraphBuilder.mainGraph(
+    onOuterGoToExpenseAddScreen: () -> Unit,
+    onOuterGoToExpenseEditScreen: (id: String, hasBeenSynced: Boolean) -> Unit,
+) {
     navigation<MainGraphRoute>(startDestination = MainRoute) {
         composable<MainRoute> {
-            InnerNavHostScreen(onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen)
+            InnerNavHostScreen(
+                onOuterGoToExpenseAddScreen = onOuterGoToExpenseAddScreen,
+                onOuterGoToExpenseEditScreen = onOuterGoToExpenseEditScreen,
+            )
         }
     }
 }
