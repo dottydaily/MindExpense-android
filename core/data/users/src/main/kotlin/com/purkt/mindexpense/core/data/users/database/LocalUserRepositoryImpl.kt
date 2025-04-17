@@ -1,8 +1,6 @@
 package com.purkt.mindexpense.core.data.users.database
 
 import com.purkt.mindexpense.core.data.common.suspendTryOrDefault
-import com.purkt.mindexpense.core.data.common.toDateTimeStringOrThrowError
-import com.purkt.mindexpense.core.data.common.toLocalDateTimeOrThrowError
 import com.purkt.mindexpense.core.data.common.tryOrDefault
 import com.purkt.mindexpense.core.data.users.database.dao.UsersDao
 import com.purkt.mindexpense.core.data.users.database.entity.UserEntity
@@ -68,8 +66,8 @@ private fun User.mapToEntityOrThrowError(forceActive: Boolean = false): UserEnti
         email = email,
         displayName = displayName,
         profileUrl = profileUrl,
-        createdAtIsoDateTime = createdAt.toDateTimeStringOrThrowError(),
-        updatedAtIsoDateTime = updatedAt.toDateTimeStringOrThrowError(),
+        createdAt = createdAt,
+        updatedAt = updatedAt,
         isUsing = if (forceActive) true else isUsing,
     )
 }
@@ -81,8 +79,8 @@ private fun UserEntity.mapToModelOrThrowError(): User {
         email = email.orEmpty(),
         displayName = displayName.orEmpty(),
         profileUrl = profileUrl.orEmpty(),
-        createdAt = createdAtIsoDateTime.toLocalDateTimeOrThrowError(),
-        updatedAt = updatedAtIsoDateTime.toLocalDateTimeOrThrowError(),
+        createdAt = createdAt,
+        updatedAt = updatedAt,
         isUsing = isUsing,
     )
 }
