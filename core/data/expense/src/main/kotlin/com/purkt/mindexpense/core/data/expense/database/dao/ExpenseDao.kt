@@ -7,11 +7,19 @@ import androidx.room.Query
 import androidx.room.Update
 import com.purkt.mindexpense.core.data.expense.database.entity.ExpenseEntity
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 @Dao
 interface ExpenseDao {
-    @Query("SELECT * FROM expense WHERE owner_user_id = :userId")
-    fun getExpensesByUserId(userId: Int): Flow<List<ExpenseEntity>>
+    @Query("""
+        SELECT * FROM expense WHERE owner_user_id = :userId
+        AND paid_at BETWEEN :startDateTime AND :endDateTime
+    """)
+    fun getExpensesByUserId(
+        userId: Int,
+        startDateTime: LocalDateTime,
+        endDateTime: LocalDateTime,
+    ): Flow<List<ExpenseEntity>>
 
     @Query("SELECT * FROM expense WHERE owner_user_id = :userId AND remote_id = :expenseId")
     suspend fun getExpensesByRemoteId(userId: Int, expenseId: String): ExpenseEntity?

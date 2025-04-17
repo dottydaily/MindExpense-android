@@ -3,6 +3,7 @@ package com.purkt.mindexpense.core.data.expense.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDateTime
 
 @Entity(tableName = "expense")
 data class ExpenseEntity(
@@ -15,7 +16,7 @@ data class ExpenseEntity(
     @ColumnInfo(name = "note") val note: String? = null,
     @ColumnInfo(name = "amount") val amount: Double,
     @ColumnInfo(name = "image_url") val imageUrl: String? = null,
-    @ColumnInfo(name = "paid_at") val paidAtIsoDateTime: String,
-    @ColumnInfo(name = "created_at") val createdAtIsoDateTime: String,
-    @ColumnInfo(name = "updated_at") val updatedAtIsoDateTime: String,
+    @ColumnInfo(name = "paid_at") val paidAt: LocalDateTime,
+    @ColumnInfo(name = "created_at") val createdAt: LocalDateTime,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

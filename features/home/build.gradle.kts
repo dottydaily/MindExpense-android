@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(projects.core.android)
+    implementation(projects.core.logging)
     implementation(projects.core.data.common)
     implementation(projects.core.domain.expense)
     implementation(projects.core.domain.users)

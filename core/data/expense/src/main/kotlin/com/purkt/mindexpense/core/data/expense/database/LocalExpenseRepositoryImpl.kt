@@ -1,8 +1,6 @@
 package com.purkt.mindexpense.core.data.expense.database
 
 import com.purkt.mindexpense.core.data.common.suspendTryOrDefault
-import com.purkt.mindexpense.core.data.common.toDateTimeStringOrThrowError
-import com.purkt.mindexpense.core.data.common.toLocalDateTimeOrThrowError
 import com.purkt.mindexpense.core.data.common.tryOrDefault
 import com.purkt.mindexpense.core.data.expense.database.dao.ExpenseDao
 import com.purkt.mindexpense.core.data.expense.database.entity.ExpenseEntity
@@ -14,11 +12,14 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.withContext
+import java.time.YearMonth
 
 internal class LocalExpenseRepositoryImpl(private val dao: ExpenseDao): ExpenseRepository {
-    override fun getExpenses(userId: Int): Flow<List<Expense>> {
+    override fun getExpenses(userId: Int, specificYearMonth: YearMonth): Flow<List<Expense>> {
         return tryOrDefault(default = flow { emit(emptyList()) }) {
-            dao.getExpensesByUserId(userId = userId)
+            val startDateTime = specificYearMonth.atDay(1).atStartOfDay()
+            val endDateTime = specificYearMonth.atEndOfMonth().atStartOfDay()
+            dao.getExpensesByUserId(userId = userId, startDateTime = startDateTime, endDateTime = endDateTime)
                 .transform { entities -> emit(entities.map { it.mapToModelOrThrowError() }) }
                 .flowOn(Dispatchers.IO)
         }
@@ -70,9 +71,9 @@ private fun ExpenseEntity.mapToModelOrThrowError(): Expense {
         note = note.orEmpty(),
         amount = amount,
         imageUrl = imageUrl.orEmpty(),
-        paidAt = paidAtIsoDateTime.toLocalDateTimeOrThrowError(),
-        createdAt = updatedAtIsoDateTime.toLocalDateTimeOrThrowError(),
-        updatedAt = updatedAtIsoDateTime.toLocalDateTimeOrThrowError(),
+        paidAt = paidAt,
+        createdAt = updatedAt,
+        updatedAt = updatedAt,
     )
 }
 
@@ -85,8 +86,8 @@ private fun Expense.mapToEntityOrThrowError(): ExpenseEntity {
         note = note,
         amount = amount,
         imageUrl = imageUrl,
-        paidAtIsoDateTime = paidAt.toDateTimeStringOrThrowError(),
-        createdAtIsoDateTime = createdAt.toDateTimeStringOrThrowError(),
-        updatedAtIsoDateTime = updatedAt.toDateTimeStringOrThrowError(),
+        paidAt = paidAt,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
     )
 }

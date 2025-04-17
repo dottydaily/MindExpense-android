@@ -6,6 +6,7 @@
     <string name="bottom_bar_profile_label">ข้อมูลผู้ใช้</string>"
     <string name="home_top_bar_label">ยอดสุทธิ</string>
     <string name="home_fab_label">เพิ่ม</string>
+    <string name="home_no_expense_message">ยังไม่มีค่าใช้จ่าย</string>
     <string name="expense_recipent_label">ผู้รับ</string>
     <string name="expense_delete">ลบ</string>
     <string name="expense_confirm_delete_dialog_title">คุณต้องการจะลบสิ่งนี้?</string>
